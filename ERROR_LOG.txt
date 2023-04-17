@@ -1,0 +1,44 @@
+TEST 1:
+   - The Xls file contains shared parameters with duplicated names:
+      - PARAMETER_14
+TEST 2:
+   - The XLS file contains shared parameters with names that already exist.
+      - Parameter PARAMETER_1 was not created in the shared parameter txt file.
+      - Parameter PARAMETER_2 was not created in the shared parameter txt file.
+      - Parameter PARAMETER_3 was not created in the shared parameter txt file.
+      - Parameter PARAMETER_4 was not created in the shared parameter txt file.
+      - Parameter PARAMETER_5 was not created in the shared parameter txt file.
+      - Parameter PARAMETER_6 was not created in the shared parameter txt file.
+      - Parameter PARAMETER_7 was not created in the shared parameter txt file.
+      - Parameter PARAMETER_8 was not created in the shared parameter txt file.
+      - Parameter PARAMETER_9 was not created in the shared parameter txt file.
+      - Parameter PARAMETER_10 was not created in the shared parameter txt file.
+      - Parameter PARAMETER_11 was not created in the shared parameter txt file.
+      - Parameter PARAMETER_12 was not created in the shared parameter txt file.
+      - Parameter PARAMETER_13 was not created in the shared parameter txt file.
+      - Parameter PARAMETER_14 was not created in the shared parameter txt file.
+
+TEST 3:
+   - The Revit Project contains shared parameters with names that already exist.
+      - Parameter PARAMETER_9 was not created in the Revit project.
+      - Parameter PARAMETER_7 was not created in the Revit project.
+      - Parameter PARAMETER_6 was not created in the Revit project.
+      - Parameter PARAMETER_10 was not created in the Revit project.
+      - Parameter PARAMETER_8 was not created in the Revit project.
+      - Parameter PARAMETER_5 was not created in the Revit project.
+      - Parameter PARAMETER_14 was not created in the Revit project.
+      - Parameter PARAMETER_14 was not created in the Revit project.
+      - Parameter PARAMETER_12 was not created in the Revit project.
+      - Parameter PARAMETER_11 was not created in the Revit project.
+      - Parameter PARAMETER_13 was not created in the Revit project.
+TEST 3:
+   - The Revit Project does not contains shared parameters with names that already exist.
+      - Parameter PARAMETER_3 created in the Revit project.
+      - Parameter PARAMETER_4 created in the Revit project.
+      - Parameter PARAMETER_2 created in the Revit project.
+      - Parameter PARAMETER_1 created in the Revit project.
+TEST 4:
+   - Parameter PARAMETER_3 created in Revit Project.
+   - Parameter PARAMETER_4 created in Revit Project.
+   - Parameter PARAMETER_2 created in Revit Project.
+   - Parameter PARAMETER_1 created in Revit Project.

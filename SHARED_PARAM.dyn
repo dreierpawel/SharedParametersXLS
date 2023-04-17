@@ -1,0 +1,1066 @@
+{
+  "Uuid": "c3a44e86-ff67-4dc0-82a9-e7b9acccdf17",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "SHARED_PARAM",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [
+    {
+      "Id": "a74272876593491c95999ad4844d10c8",
+      "Name": "INPUT XLS FILE",
+      "Type": "string",
+      "Value": "..\\SHARED_PARAM.xlsx",
+      "Description": "Allows you to select a file on the system to get its filename"
+    },
+    {
+      "Id": "14a4701281354dd59d8ebca67c668d8a",
+      "Name": "ERROR LOG FILE",
+      "Type": "string",
+      "Value": "..\\ERROR_LOG.txt",
+      "Description": "Allows you to select a file on the system to get its filename"
+    },
+    {
+      "Id": "d1b5ca5fc99c41debae078d48d67bb2c",
+      "Name": "OUTPUT XLS FILE",
+      "Type": "string",
+      "Value": "..\\SHARED_PARAM_NEW.xlsx",
+      "Description": "Allows you to select a file on the system to get its filename"
+    }
+  ],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "CoreNodeModels.Input.Filename, CoreNodeModels",
+      "HintPath": "C:\\Users\\User_REBEL\\Desktop\\parameter by xls\\SHARED_PARAM.xlsx",
+      "InputValue": "..\\SHARED_PARAM.xlsx",
+      "NodeType": "ExtensionNode",
+      "Id": "a74272876593491c95999ad4844d10c8",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e4446d77478144208d75e223063e43c2",
+          "Name": "",
+          "Description": "Filename",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a file on the system to get its filename"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "true;\nfalse;",
+      "Id": "eff8a246ffd44a85bbb205eab6ba2471",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "dacf882671a449caafc8243258e13166",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "5e50a562aafa4a8799d86107169bafb6",
+          "Name": "",
+          "Description": "Value of expression at line 2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSOffice.Data.ImportExcel@var,string,bool,bool",
+      "Id": "f405ca4cc7ab4014b01d30bb5302feba",
+      "Inputs": [
+        {
+          "Id": "1a368895b4344421b2f2f3f373c1aad6",
+          "Name": "file",
+          "Description": "File representing the Microsoft Excel spreadsheet.\n\nvar",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "39e579db2e1a44a9ae80fe4a3ef62d21",
+          "Name": "sheetName",
+          "Description": "Name of the worksheet containing the data.\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "65506585462e4f4b97130c03135acd63",
+          "Name": "readAsStrings",
+          "Description": "Toggle to switch between reading Excel file as strings.\n\nbool\nDefault value : false",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f4127d9a3a2f497c89053157e688a689",
+          "Name": "showExcel",
+          "Description": "Toggle to switch between showing and hiding the main Excel window.\n\nbool\nDefault value : true",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "e6fc8d4a6b83428ca6a82c3e56331f3a",
+          "Name": "data",
+          "Description": "Rows of data from the Excel worksheet.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Read data from a Microsoft Excel spreadsheet. Data is read by row and returned in a series of lists by row. Rows and columns are zero-indexed; for example, the value in cell A1 will appear in the data list at [0,0]. This node requires Microsoft Excel to be installed.\n\nData.ImportExcel (file: var, sheetName: string, readAsStrings: bool = false, showExcel: bool = true): var[][]"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "#python nodes in dynamo 1.0\r\n#proposed by Julien Benoit @jbenoit44\r\n#http://aecuandme.wordpress.com/\r\n\r\n#Credits for Traceback:\r\n# Copyright(c) 2015, Konrad K Sobon\r\n# @arch_laboratory, http://archi-lab.net\r\n\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n# Import ToDSType(bool) extension method\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\nclr.ImportExtensions(Revit.Elements)\r\n# Import geometry conversion extension methods\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n# Import DocumentManager and TransactionManager\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\nfrom System.Collections.Generic import *\r\n# Import RevitAPI\r\nclr.AddReference(\"RevitAPI\")\r\nimport Autodesk\r\nfrom Autodesk.Revit.DB import *\r\n\r\nimport sys\r\npyt_path = r'C:\\Program Files (x86)\\IronPython 2.7\\Lib'\r\nsys.path.append(pyt_path)\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nstring = str(IN[0])\r\nstring = string.split('\\\\')[-1].split(\".xls\")[0]\r\n\r\n# Place your code below this line\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = string",
+      "VariableInputPorts": true,
+      "Id": "56d80afa3a7f4408873fafbb2489871e",
+      "Inputs": [
+        {
+          "Id": "0762af11d9014af6aad32a46f0f2cf2e",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "8d5139d29f154ed1916c52d454eef72d",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.FileObject, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "ec2e80dac8c2477ab94e1d85e1d08459",
+      "Inputs": [
+        {
+          "Id": "72f2fe7e85c349f3ac0b4505caf66315",
+          "Name": "path",
+          "Description": "Path to the file.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b3aab78861a4400cb08885c2012e9201",
+          "Name": "file",
+          "Description": "File object",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a file object from a path."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.Deconstruct@var[]..[]",
+      "Id": "263a6859aca4497982b3541615ca5ac3",
+      "Inputs": [
+        {
+          "Id": "74df31aaba764b998727615ee35f6b67",
+          "Name": "list",
+          "Description": "List to be split.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c32243bd98b24343a3e2e28e0fc5f0c0",
+          "Name": "first",
+          "Description": "First item in the list.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "c85d529d85364a459b95798096de8aa4",
+          "Name": "rest",
+          "Description": "Rest of the list.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Given a list, produces the first item in the list, and a new list containing all items except the first.\n\nList.Deconstruct (list: var[]..[]): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSOffice.Data.ExportExcel@string,string,int,int,var[][],bool",
+      "Id": "607f01b722ee441ab50cb980c9302b8b",
+      "Inputs": [
+        {
+          "Id": "6ddf0dcacfbb476086972b27f346c0cd",
+          "Name": "filePath",
+          "Description": "File path to the Microsoft Excel spreadsheet.\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "54ada62d5c1d4cc1abbcb998e4b0f02e",
+          "Name": "sheetName",
+          "Description": "Name of the workseet to write data to.\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "0bfba487074449419fccb219d51339a3",
+          "Name": "startRow",
+          "Description": "Start row for writing data. Enter 0 for Row 1, 1 for Row 2, etc.\n\nint",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e98a5d0c9a61430f8f70706003eda73c",
+          "Name": "startCol",
+          "Description": "Start column for writing data. Enter 0 for Column A, 1 for Column B, etc.\n\nint",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "323fcb7b7ade44aca5540fddfb1039bc",
+          "Name": "data",
+          "Description": "Data to write to the spreadsheet.\n\nvar[][]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "69e1220d6e174ef78a069d9059f8bee6",
+          "Name": "overWrite",
+          "Description": "bool\nDefault value : false",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3706196e1c164bafa58852700c02e25c",
+          "Name": "data",
+          "Description": "Data written to the spreadsheet.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Write data to a Microsoft Excel spreadsheet. Data is written by row with sublists to be written in successive rows. Rows and columns are zero-indexed; for example, the value in the data list at [0,0] will be written to cell A1. Null values and empty lists are written to Excel as empty cells. This node requires Microsoft Excel to be installed.\n\nData.ExportExcel (filePath: string, sheetName: string, startRow: int, startCol: int, data: var[][], overWrite: bool = false): var[][]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "1;\n0;\nfalse;",
+      "Id": "94d08fc484a74296aa9befee85a10c6c",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e3456f0664ff453c85cab04883b8f5e8",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a09da3562a7f41e08012515f29cae17d",
+          "Name": "",
+          "Description": "Value of expression at line 2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f1bf9b5d60e54a4cb41f97d71a936e7d",
+          "Name": "",
+          "Description": "Value of expression at line 3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.FileObject, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "42131ea9f37446679b705cfe46ffcc8d",
+      "Inputs": [
+        {
+          "Id": "4c93fb3735314072a202e7ff0b879e09",
+          "Name": "path",
+          "Description": "Path to the file.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "94a6f0f7e7674d7594de16fc527fe76a",
+          "Name": "file",
+          "Description": "File object",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a file object from a path."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Filename, CoreNodeModels",
+      "HintPath": "C:\\Users\\User_REBEL\\Desktop\\parameter by xls\\ERROR_LOG.txt",
+      "InputValue": "..\\ERROR_LOG.txt",
+      "NodeType": "ExtensionNode",
+      "Id": "14a4701281354dd59d8ebca67c668d8a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "5e316e77e36a499789604c431d7fdec2",
+          "Name": "",
+          "Description": "Filename",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a file on the system to get its filename"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\noutfile = open(str(IN[0]), \"w\")\r\ntext = IN[1]\r\noutfile.write(text)\r\noutfile.close\r\n\r\nOUT = text",
+      "VariableInputPorts": true,
+      "Id": "9a69d710f28743a6b1725bdb2b612880",
+      "Inputs": [
+        {
+          "Id": "9bde73d373f1498e9846a9b71dc8b340",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a71da3b619b4421bb716442f663f28a0",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b96207977b8e480fa18bc794b61c1259",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "lst[1];\nlst[0];",
+      "Id": "f24dee7726414625a99a88a859a340b6",
+      "Inputs": [
+        {
+          "Id": "e2b2f83b9abd4bd398eaa9a15e7f4a10",
+          "Name": "lst",
+          "Description": "lst",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3022d7cea3e54cd58e551def3db3ba06",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "2b089747affa415f8804222ce9015df4",
+          "Name": "",
+          "Description": "Value of expression at line 2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# P.DREIER ©  github.com/dreierpawel\r\nimport math\r\nimport clr\r\nimport sys\r\n\r\nsys.path.append('C:\\Program Files (x86)\\IronPython 2.7\\Lib')\r\nimport System\r\nfrom System import Array\r\nfrom System.Collections.Generic import *\r\n\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nimport Autodesk\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.UI import *\r\n\r\nimport clr\r\n\r\nclr.AddReference('RevitAPI')\r\nclr.AddReference('RevitAPIUI')\r\nimport Autodesk.Revit.DB as DB\r\nimport Autodesk.Revit.UI as UI\r\nimport System\r\nimport System.IO\r\n# import System.Windows.Forms as Forms\r\nimport System.Collections.Generic as Collections\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nuiapp = DocumentManager.Instance.CurrentUIApplication\r\napp = uiapp.Application\r\nuidoc = uiapp.ActiveUIDocument\r\nfrom_xls_parameters_dataset_lst = IN[1]\r\n\r\n\r\ndef flatten_list(nested_list):\r\n    \"\"\"\r\n    Flatten a list of lists into a single list.\r\n    \"\"\"\r\n    flattened_list = []\r\n    for item in nested_list:\r\n        if isinstance(item, list):\r\n            flattened_list.extend(flatten_list(item))\r\n        else:\r\n            flattened_list.append(item)\r\n    return flattened_list\r\n\r\n\r\ndef dict_of_all_categories_from_xls(xls_definition_values_lst):\r\n    binding_type_from_xls_from_xls = xls_definition_values_lst[8]  # 0 - TYPE / 1 - INSTANCE -> str\r\n    categories_set_names_from_xls = xls_definition_values_lst[10]  # CATEGORIES LIST -> str\r\n    if categories_set_names_from_xls == \"All\" and binding_type_from_xls_from_xls == \"0\":\r\n        # All categories for Type\r\n        categories_set_names_from_xls = \"Analytical Links, Structural Rebar Couplers, Structural Connections, \" \\\r\n                                        \"Structural Fabric Areas, Structural Fabric Reinforcement, Rebar Shape, \" \\\r\n                                        \"Structural Path Reinforcement, Structural Area Reinforcement, \" \\\r\n                                        \"Structural Rebar, MEP Fabrication Containment, MEP Fabrication Pipework, \" \\\r\n                                        \"MEP Fabrication Hangers, MEP Fabrication Ductwork, Pipe Placeholders, \" \\\r\n                                        \"Duct Placeholders, Cable Tray Runs, Conduit Runs, Conduits, Cable Trays, \" \\\r\n                                        \"Conduit Fittings, Cable Tray Fittings, Duct Linings, Duct Insulations, \" \\\r\n                                        \"Pipe Insulations, Sprinklers, Lighting Devices, Fire Alarm Devices, \" \\\r\n                                        \"Data Devices, Communication Devices, Security Devices, Nurse Call Devices, \" \\\r\n                                        \"Telephone Devices, Pipe Accessories, Flex Pipes, Pipe Fittings, Pipes, \" \\\r\n                                        \"Piping Systems, Wires, Flex Ducts, Duct Accessories, Duct Systems, \" \\\r\n                                        \"Air Terminals, Duct Fittings, Ducts, Mass, Detail Items, Entourage, \" \\\r\n                                        \"Planting, Structural Stiffeners, RVT Links, Specialty Equipment, \" \\\r\n                                        \"Topography, Structural Trusses, Structural Columns, \" \\\r\n                                        \"Structural Beam Systems, Structural Framing, Structural Foundations,\" \\\r\n                                        \" Site, Parking, Plumbing Fixtures, Mechanical Equipment, \" \\\r\n                                        \"Lighting Fixtures, Furniture Systems, Electrical Fixtures, \" \\\r\n                                        \"Electrical Equipment, Casework, Mechanical Equipment Sets, \" \\\r\n                                        \"Analytical Pipe Connections, Curtain Systems, Assemblies, Levels, \" \\\r\n                                        \"Grids, Ramps, Curtain Wall Mullions, Curtain Panels, Generic Models, \" \\\r\n                                        \"Railings, Stairs, Columns, Model Groups, Furniture, Ceilings, \" \\\r\n                                        \"Roofs, Floors, Doors, Windows, Walls\"\r\n    if categories_set_names_from_xls == \"All\" and binding_type_from_xls_from_xls == \"1\":\r\n        # All categories for Instance\r\n        categories_set_names_from_xls = \"Analytical Links, Analytical Nodes, Analytical Foundation Slabs, \" \\\r\n                                          \"Analytical Wall Foundations, Analytical Isolated Foundations, \" \\\r\n                                          \"Analytical Walls, Analytical Floors, Analytical Columns, \" \\\r\n                                          \"Analytical Braces, Analytical Beams, Structural Rebar Couplers, \" \\\r\n                                          \"Structural Connections, Structural Fabric Areas, \" \\\r\n                                          \"Structural Fabric Reinforcement, Rebar Shape, \" \\\r\n                                          \"Structural Path Reinforcement, Structural Area Reinforcement, \" \\\r\n                                          \"Structural Rebar, MEP Fabrication Containment, \" \\\r\n                                          \"MEP Fabrication Pipework, MEP Fabrication Hangers, \" \\\r\n                                          \"MEP Fabrication Ductwork, Analytical Surfaces, Analytical Spaces, \" \\\r\n                                          \"Pipe Placeholders, Duct Placeholders, Cable Tray Runs, Conduit Runs, \" \\\r\n                                          \"Conduits, Cable Trays, Conduit Fittings, Cable Tray Fittings, \" \\\r\n                                          \"Duct Linings, Duct Insulations, Pipe Insulations, HVAC Zones, \" \\\r\n                                          \"Switch System, Sprinklers, Lighting Devices, Fire Alarm Devices, \" \\\r\n                                          \"Data Devices, Communication Devices, Security Devices, \" \\\r\n                                          \"Nurse Call Devices, Telephone Devices, Pipe Accessories, \" \\\r\n                                          \"Flex Pipes, Pipe Fittings, Pipes, Piping Systems, Wires, \" \\\r\n                                          \"Electrical Circuits, Flex Ducts, Duct Accessories, Duct Systems, \" \\\r\n                                          \"Air Terminals, Duct Fittings, Ducts, Spaces, Mass, Areas, \" \\\r\n                                          \"Project Information, Sheets, Detail Items, Entourage, Planting, \" \\\r\n                                          \"Structural Stiffeners, RVT Links, Specialty Equipment, Topography, \" \\\r\n                                          \"Structural Trusses, Structural Columns, Structural Beam Systems, \" \\\r\n                                          \"Structural Framing, Structural Foundations, Site, Roads, Parking, \" \\\r\n                                          \"Plumbing Fixtures, Mechanical Equipment, Lighting Fixtures, \" \\\r\n                                          \"Furniture Systems, Electrical Fixtures, Electrical Equipment, \" \\\r\n                                          \"Casework, Shaft Openings, Mechanical Equipment Sets, \" \\\r\n                                          \"Analytical Pipe Connections, Materials, Schedules, \" \\\r\n                                          \"Curtain Systems, Views, Parts, Assemblies, Levels, Grids, Ramps, \" \\\r\n                                          \"Curtain Wall Mullions, Curtain Panels, Rooms, Generic Models, \" \\\r\n                                          \"Railings, Stairs, Columns, Model Groups, Furniture, Ceilings, \" \\\r\n                                          \"Roofs, Floors, Doors, Windows, Walls\"\r\n    return categories_set_names_from_xls\r\n\r\n\r\ndef dict_of_parameter_type():\r\n    # more parameters_types on https://www.revitapidocs.com/2019/f38d847e-207f-b59a-3bd6-ebea80d5be63.html\r\n    dict = {\r\n        'Text': Autodesk.Revit.DB.ParameterType.Text,\r\n        'String': Autodesk.Revit.DB.ParameterType.Text,\r\n        'Integer': Autodesk.Revit.DB.ParameterType.Integer,\r\n        'Number': Autodesk.Revit.DB.ParameterType.Number,\r\n        'Length': Autodesk.Revit.DB.ParameterType.Length,\r\n        'Area': Autodesk.Revit.DB.ParameterType.Area,\r\n        'Volume': Autodesk.Revit.DB.ParameterType.Volume,\r\n        'Angle': Autodesk.Revit.DB.ParameterType.Angle,\r\n        'URL': Autodesk.Revit.DB.ParameterType.URL,\r\n        'Material': Autodesk.Revit.DB.ParameterType.Material,\r\n        'Multiline Text': Autodesk.Revit.DB.ParameterType.MultilineText,\r\n        'YesNo': Autodesk.Revit.DB.ParameterType.YesNo\r\n    }\r\n    return dict\r\n\r\n\r\ndef dict_of_builtin_pg():\r\n    pg_dict = {\r\n        \"Adaptive Component\": BuiltInParameterGroup.PG_FLEXIBLE,\r\n        \"Advanced\": BuiltInParameterGroup.PG_ENERGY_ANALYSIS_ADVANCED,\r\n        #\"Alternate Units\": BuiltInParameterGroup.PG_ALTERNATE_UNITS,\r\n        \"Analysis Results\": BuiltInParameterGroup.PG_ANALYSIS_RESULTS,\r\n        \"Analytical Alignment\": BuiltInParameterGroup.PG_ANALYTICAL_ALIGNMENT,\r\n        \"Analytical Model\": BuiltInParameterGroup.PG_ANALYTICAL_MODEL,\r\n        \"Analytical Properties\": BuiltInParameterGroup.PG_ANALYTICAL_PROPERTIES,\r\n        \"Area\": BuiltInParameterGroup.PG_AREA,\r\n        \"Bottom Chords\": BuiltInParameterGroup.PG_TRUSS_FAMILY_BOTTOM_CHORD,\r\n        \"Building Data\": BuiltInParameterGroup.PG_ENERGY_ANALYSIS_BUILDING_DATA,\r\n        \"Calculation Rules\": BuiltInParameterGroup.PG_STAIRS_CALCULATOR_RULES,\r\n        \"Camera\": BuiltInParameterGroup.PG_VIEW_CAMERA,\r\n        \"Conceptual Energy Data\": BuiltInParameterGroup.PG_CONCEPTUAL_ENERGY_DATA,\r\n        \"Constraints\": BuiltInParameterGroup.PG_CONSTRAINTS,\r\n        \"Construction\": BuiltInParameterGroup.PG_CONSTRUCTION,\r\n        # \"Cross-Section Definition\": BuiltInParameterGroup.PG_WALL_CROSS_SECTION_DEFINITION,\r\n        \"Data\": BuiltInParameterGroup.PG_DATA,\r\n        \"Detailed Model\": BuiltInParameterGroup.PG_ENERGY_ANALYSIS_DETAILED_MODEL,\r\n        \"Diagonal Webs\": BuiltInParameterGroup.PG_TRUSS_FAMILY_DIAG_WEB,\r\n        \"Dimensions (linear units or % of thickness)\": BuiltInParameterGroup.PG_SPLIT_PROFILE_DIMENSIONS,\r\n        \"Dimensions\": BuiltInParameterGroup.PG_GEOMETRY,\r\n        \"Display\": BuiltInParameterGroup.PG_DISPLAY,\r\n        \"Division Geometry\": BuiltInParameterGroup.PG_DIVISION_GEOMETRY,\r\n        \"Electrical - Circuiting\": BuiltInParameterGroup.PG_ELECTRICAL_CIRCUITING,\r\n        \"Electrical - Lighting\": BuiltInParameterGroup.PG_ELECTRICAL_LIGHTING,\r\n        \"Electrical - Loads\": BuiltInParameterGroup.PG_ELECTRICAL_LOADS,\r\n        # \"Electrical Analysis\": BuiltInParameterGroup.PG_ELECTRICAL_ANALYSIS,\r\n        # \"Electrical Engineering\": BuiltInParameterGroup.PG_ELECTRICAL_ENGINEERING,\r\n        \"Electrical\": BuiltInParameterGroup.PG_ELECTRICAL,\r\n        \"End Connection\": BuiltInParameterGroup.PG_STAIRS_OPEN_END_CONNECTION,\r\n        \"Energy Analysis\": BuiltInParameterGroup.PG_ENERGY_ANALYSIS,\r\n        \"Energy Analytical Model\": BuiltInParameterGroup.PG_ENERGY_ANALYSIS_CONCEPTUAL_MODEL,\r\n        \"Energy Model - Building Services\": BuiltInParameterGroup.PG_CONCEPTUAL_ENERGY_DATA_BUILDING_SERVICES,\r\n        \"Essential\": BuiltInParameterGroup.PG_ENERGY_ANALYSIS_DETAILED_AND_CONCEPTUAL_MODELS,\r\n        \"Extension (Beginning/Bottom)\": BuiltInParameterGroup.PG_CONTINUOUSRAIL_BEGIN_BOTTOM_EXTENSION,\r\n        \"Extension (End/Top)\": BuiltInParameterGroup.PG_CONTINUOUSRAIL_END_TOP_EXTENSION,\r\n        \"Extents\": BuiltInParameterGroup.PG_VIEW_EXTENTS,\r\n        \"Fabrication Product Data\": BuiltInParameterGroup.PG_FABRICATION_PRODUCT_DATA,\r\n        \"Fire Protection\": BuiltInParameterGroup.PG_FIRE_PROTECTION,\r\n        \"Fittings\": BuiltInParameterGroup.PG_FITTING,\r\n        \"Forces\": BuiltInParameterGroup.PG_FORCES,\r\n        \"General\": BuiltInParameterGroup.PG_GENERAL,\r\n        \"Geolocation\": BuiltInParameterGroup.PG_GEO_LOCATION,\r\n        \"Geometric Position\": BuiltInParameterGroup.PG_GEOMETRY_POSITIONING,\r\n        \"Graphics\": BuiltInParameterGroup.PG_GRAPHICS,\r\n        \"Green Building Properties\": BuiltInParameterGroup.PG_GREEN_BUILDING,\r\n        \"Grid 1 Mullions\": BuiltInParameterGroup.PG_CURTAIN_MULLION_1,\r\n        \"Grid 1\": BuiltInParameterGroup.PG_CURTAIN_GRID_1,\r\n        \"Grid 2 Mullions\": BuiltInParameterGroup.PG_CURTAIN_MULLION_2,\r\n        \"Grid 2\": BuiltInParameterGroup.PG_CURTAIN_GRID_2,\r\n        \"Grid\": BuiltInParameterGroup.PG_CURTAIN_GRID,\r\n        \"Handrail 1\": BuiltInParameterGroup.PG_RAILING_SYSTEM_FAMILY_HANDRAILS,\r\n        \"Handrail 2\": BuiltInParameterGroup.PG_RAILING_SYSTEM_SECONDARY_FAMILY_HANDRAILS,\r\n        \"Horizontal Grid\": BuiltInParameterGroup.PG_CURTAIN_GRID_HORIZ,\r\n        \"Horizontal Mullions\": BuiltInParameterGroup.PG_CURTAIN_MULLION_HORIZ,\r\n        \"Identity Data\": BuiltInParameterGroup.PG_IDENTITY_DATA,\r\n        \"IFC Parameters\": BuiltInParameterGroup.PG_IFC,\r\n        \"Insulation\": BuiltInParameterGroup.PG_INSULATION,\r\n        \"Layers\": BuiltInParameterGroup.PG_REBAR_SYSTEM_LAYERS,\r\n        \"Length\": BuiltInParameterGroup.PG_LENGTH,\r\n        # \"Life Safety\": BuiltInParameterGroup.PG_LIFE_SAFETY,\r\n        \"Lining\": BuiltInParameterGroup.PG_LINING,\r\n        \"Material Thermal Properties\": BuiltInParameterGroup.PG_ENERGY_ANALYSIS_BLDG_CONS_MTL_THERMAL_PROPS,\r\n        \"Materials and Finishes\": BuiltInParameterGroup.PG_MATERIALS,\r\n        \"Mechanical - Flow\": BuiltInParameterGroup.PG_MECHANICAL_AIRFLOW,\r\n        \"Mechanical - Loads\": BuiltInParameterGroup.PG_MECHANICAL_LOADS,\r\n        \"Mechanical\": BuiltInParameterGroup.PG_MECHANICAL,\r\n        \"Model Properties\": BuiltInParameterGroup.PG_ADSK_MODEL_PROPERTIES,\r\n        \"Moments\": BuiltInParameterGroup.PG_MOMENTS,\r\n        \"Nodes\": BuiltInParameterGroup.PG_NODES,\r\n        \"Overall Legend\": BuiltInParameterGroup.PG_OVERALL_LEGEND,\r\n        \"Pattern Application\": BuiltInParameterGroup.PG_PATTERN_APPLICATION,\r\n        \"Pattern Remainder\": BuiltInParameterGroup.PG_RAILING_SYSTEM_SEGMENT_PATTERN_REMAINDER,\r\n        \"Pattern Repeat\": BuiltInParameterGroup.PG_RAILING_SYSTEM_SEGMENT_PATTERN_REPEAT,\r\n        \"Pattern\": BuiltInParameterGroup.PG_PATTERN,\r\n        \"Phasing\": BuiltInParameterGroup.PG_PHASING,\r\n        \"Photometrics\": BuiltInParameterGroup.PG_LIGHT_PHOTOMETRICS,\r\n        \"Plumbing\": BuiltInParameterGroup.PG_PLUMBING,\r\n        \"Posts\": BuiltInParameterGroup.PG_RAILING_SYSTEM_SEGMENT_POSTS,\r\n        \"Primary End\": BuiltInParameterGroup.PG_PRIMARY_END,\r\n        # \"Primary Units\": BuiltInParameterGroup.PG_PRIMARY_UNITS,\r\n        \"Profile 1\": BuiltInParameterGroup.PG_PROFILE_1,\r\n        \"Profile 2\": BuiltInParameterGroup.PG_PROFILE_2,\r\n        \"Profile\": BuiltInParameterGroup.PG_PROFILE,\r\n        \"Rebar Set\": BuiltInParameterGroup.PG_REBAR_ARRAY,\r\n        \"Reference\": BuiltInParameterGroup.PG_REFERENCE,\r\n        \"Releases / Member Forces\": BuiltInParameterGroup.PG_RELEASES_MEMBER_FORCES,\r\n        \"Rise / Drop\": BuiltInParameterGroup.PG_SYSTEMTYPE_RISEDROP,\r\n        \"Risers\": BuiltInParameterGroup.PG_STAIR_RISERS,\r\n        \"Room/Space Data\": BuiltInParameterGroup.PG_ENERGY_ANALYSIS_ROOM_SPACE_DATA,\r\n        \"Rotation about\": BuiltInParameterGroup.PG_ROTATION_ABOUT,\r\n        # \"Route Analysis\": BuiltInParameterGroup.PG_ROUTE_ANALYSIS,\r\n        \"Secondary End\": BuiltInParameterGroup.PG_SECONDARY_END,\r\n        \"Segment Pattern (default)\": BuiltInParameterGroup.PG_RAILING_SYSTEM_FAMILY_SEGMENT_PATTERN,\r\n        \"Segments and Fittings\": BuiltInParameterGroup.PG_SEGMENTS_FITTINGS,\r\n        \"Set\": BuiltInParameterGroup.PG_COUPLER_ARRAY,\r\n        \"Slab Shape Edit\": BuiltInParameterGroup.PG_SLAB_SHAPE_EDIT,\r\n        \"Stringers\": BuiltInParameterGroup.PG_STAIR_STRINGERS,\r\n        \"Structural Analysis\": BuiltInParameterGroup.PG_STRUCTURAL_ANALYSIS,\r\n        \"Structural Section Geometry\": BuiltInParameterGroup.PG_STRUCTURAL_SECTION_GEOMETRY,\r\n        \"Structural\": BuiltInParameterGroup.PG_STRUCTURAL,\r\n        # \"Terminations\": BuiltInParameterGroup.PG_TERMINATION,\r\n        \"Text\": BuiltInParameterGroup.PG_TEXT,\r\n        \"Threads/Risers\": BuiltInParameterGroup.PG_STAIRS_TREADS_RISERS,\r\n        \"Title Text\": BuiltInParameterGroup.PG_TITLE,\r\n        \"Top Chords\": BuiltInParameterGroup.PG_TRUSS_FAMILY_TOP_CHORD,\r\n        \"Top Rail\": BuiltInParameterGroup.PG_RAILING_SYSTEM_FAMILY_TOP_RAIL,\r\n        \"Translation in\": BuiltInParameterGroup.PG_TRANSLATION_IN,\r\n        \"Treads\": BuiltInParameterGroup.PG_STAIR_TREADS,\r\n        \"Underlay\": BuiltInParameterGroup.PG_UNDERLAY,\r\n        \"Vertical Grid\": BuiltInParameterGroup.PG_CURTAIN_GRID_VERT,\r\n        \"Vertical Mullions\": BuiltInParameterGroup.PG_CURTAIN_MULLION_VERT,\r\n        \"Vertical Webs\": BuiltInParameterGroup.PG_TRUSS_FAMILY_VERT_WEB,\r\n        \"Visibility\": BuiltInParameterGroup.PG_VISIBILITY,\r\n        \"Winders\": BuiltInParameterGroup.PG_STAIRS_WINDERS\r\n    }\r\n    return pg_dict\r\n\r\n\r\ndef dict_of_builtin_categories():\r\n    # Get All Bound Parameters Category\r\n    # https://forums.autodesk.com/t5/revit-api-forum/determine-if-category-supports-type-parameter-binding/td-p/4918068\r\n    all_categories = doc.Settings.Categories\r\n    all_type_categories = []\r\n    for cat in all_categories:\r\n        if cat.AllowsBoundParameters:\r\n            all_type_categories.append(cat)\r\n    cat_dict = {\r\n        \"All\": all_type_categories,\r\n        \"Air Terminals\": BuiltInCategory.OST_DuctTerminal,\r\n        \"Analytical Beams\": BuiltInCategory.OST_BeamAnalytical,\r\n        \"Analytical Braces\": BuiltInCategory.OST_BraceAnalytical,\r\n        \"Analytical Columns\": BuiltInCategory.OST_ColumnAnalytical,\r\n        \"Analytical Floors\": BuiltInCategory.OST_FloorAnalytical,\r\n        \"Analytical Foundation Slabs\": BuiltInCategory.OST_FoundationSlabAnalytical,\r\n        \"Analytical Isolated Foundations\": BuiltInCategory.OST_IsolatedFoundationAnalytical,\r\n        \"Analytical Links\": BuiltInCategory.OST_LinksAnalytical,\r\n        \"Analytical Nodes\": BuiltInCategory.OST_AnalyticalNodes,\r\n        \"Analytical Pipe Connections\": BuiltInCategory.OST_AnalyticalPipeConnections,\r\n        \"Analytical Spaces\": BuiltInCategory.OST_AnalyticSpaces,\r\n        \"Analytical Surfaces\": BuiltInCategory.OST_GbXMLFaces,\r\n        \"Analytical Wall Foundations\": BuiltInCategory.OST_WallFoundationAnalytical,\r\n        \"Analytical Walls\": BuiltInCategory.OST_WallAnalytical,\r\n        \"Areas\": BuiltInCategory.OST_Areas,\r\n        \"Assemblies\": BuiltInCategory.OST_Assemblies,\r\n        \"Cable Tray Fittings\": BuiltInCategory.OST_CableTrayFitting,\r\n        \"Cable Tray Runs\": BuiltInCategory.OST_CableTrayRun,\r\n        \"Cable Trays\": BuiltInCategory.OST_CableTray,\r\n        \"Casework\": BuiltInCategory.OST_Casework,\r\n        \"Ceilings\": BuiltInCategory.OST_Ceilings,\r\n        \"Columns\": BuiltInCategory.OST_Columns,\r\n        \"Communication Devices\": BuiltInCategory.OST_CommunicationDevices,\r\n        \"Conduit Fittings\": BuiltInCategory.OST_ConduitFitting,\r\n        \"Conduit Runs\": BuiltInCategory.OST_ConduitRun,\r\n        \"Conduits\": BuiltInCategory.OST_Conduit,\r\n        \"Curtain Panels\": BuiltInCategory.OST_CurtainWallPanels,\r\n        \"Curtain Systems\": BuiltInCategory.OST_CurtaSystem,\r\n        \"Curtain Wall Mullions\": BuiltInCategory.OST_CurtainWallMullions,\r\n        \"Data Devices\": BuiltInCategory.OST_DataDevices,\r\n        \"Detail Items\": BuiltInCategory.OST_DetailComponents,\r\n        \"Doors\": BuiltInCategory.OST_Doors,\r\n        \"Duct Accessories\": BuiltInCategory.OST_DuctAccessory,\r\n        \"Duct Fittings\": BuiltInCategory.OST_DuctFitting,\r\n        \"Duct Insulations\": BuiltInCategory.OST_DuctInsulations,\r\n        \"Duct Linings\": BuiltInCategory.OST_DuctLinings,\r\n        \"Duct Placeholders\": BuiltInCategory.OST_PlaceHolderDucts,\r\n        \"Duct Systems\": BuiltInCategory.OST_DuctSystem,\r\n        \"Ducts\": BuiltInCategory.OST_DuctCurves,\r\n        \"Electrical Circuits\": BuiltInCategory.OST_ElectricalCircuit,\r\n        \"Electrical Equipment\": BuiltInCategory.OST_ElectricalEquipment,\r\n        \"Electrical Fixtures\": BuiltInCategory.OST_ElectricalFixtures,\r\n        \"Entourage\": BuiltInCategory.OST_Entourage,\r\n        \"Fire Alarm Devices\": BuiltInCategory.OST_FireAlarmDevices,\r\n        \"Flex Ducts\": BuiltInCategory.OST_FlexDuctCurves,\r\n        \"Flex Pipes\": BuiltInCategory.OST_FlexPipeCurves,\r\n        \"Floors\": BuiltInCategory.OST_Floors,\r\n        \"Furniture Systems\": BuiltInCategory.OST_FurnitureSystems,\r\n        \"Furniture\": BuiltInCategory.OST_Furniture,\r\n        \"Generic Models\": BuiltInCategory.OST_GenericModel,\r\n        \"Grids\": BuiltInCategory.OST_Grids,\r\n        \"HVAC Zones\": BuiltInCategory.OST_HVAC_Zones,\r\n        \"Levels\": BuiltInCategory.OST_Levels,\r\n        \"Lighting Devices\": BuiltInCategory.OST_LightingDevices,\r\n        \"Lighting Fixtures\": BuiltInCategory.OST_LightingFixtures,\r\n        \"Mass\": BuiltInCategory.OST_Mass,\r\n        \"Materials\": BuiltInCategory.OST_Materials,\r\n        \"Mechanical Equipment Sets\": BuiltInCategory.OST_MechanicalEquipmentSet,\r\n        \"Mechanical Equipment\": BuiltInCategory.OST_MechanicalEquipment,\r\n        \"MEP Fabrication Containment\": BuiltInCategory.OST_FabricationContainment,\r\n        \"MEP Fabrication Ductwork\": BuiltInCategory.OST_FabricationDuctwork,\r\n        \"MEP Fabrication Hangers\": BuiltInCategory.OST_FabricationHangers,\r\n        \"MEP Fabrication Pipework\": BuiltInCategory.OST_FabricationPipework,\r\n        \"Model Groups\": BuiltInCategory.OST_IOSModelGroups,\r\n        \"Nurse Call Devices\": BuiltInCategory.OST_NurseCallDevices,\r\n        \"Parking\": BuiltInCategory.OST_Parking,\r\n        \"Parts\": BuiltInCategory.OST_Parts,\r\n        \"Pipe Accessories\": BuiltInCategory.OST_PipeAccessory,\r\n        \"Pipe Fittings\": BuiltInCategory.OST_PipeFitting,\r\n        \"Pipe Insulations\": BuiltInCategory.OST_PipeInsulations,\r\n        \"Pipe Placeholders\": BuiltInCategory.OST_PlaceHolderPipes,\r\n        \"Pipes\": BuiltInCategory.OST_PipeCurves,\r\n        \"Piping Systems\": BuiltInCategory.OST_PipingSystem,\r\n        \"Planting\": BuiltInCategory.OST_Planting,\r\n        \"Plumbing Fixtures\": BuiltInCategory.OST_PlumbingFixtures,\r\n        \"Project Information\": BuiltInCategory.OST_ProjectInformation,\r\n        \"Railings\": BuiltInCategory.OST_StairsRailing,\r\n        \"Ramps\": BuiltInCategory.OST_Ramps,\r\n        \"Rebar Shape\": BuiltInCategory.OST_RebarShape,\r\n        \"Roads\": BuiltInCategory.OST_Roads,\r\n        \"Roofs\": BuiltInCategory.OST_Roofs,\r\n        \"Rooms\": BuiltInCategory.OST_Rooms,\r\n        \"RVT Links\": BuiltInCategory.OST_RvtLinks,\r\n        \"Schedules\": BuiltInCategory.OST_Schedules,\r\n        \"Security Devices\": BuiltInCategory.OST_SecurityDevices,\r\n        \"Shaft Openings\": BuiltInCategory.OST_ShaftOpening,\r\n        \"Sheets\": BuiltInCategory.OST_Sheets,\r\n        \"Site\": BuiltInCategory.OST_Site,\r\n        \"Spaces\": BuiltInCategory.OST_MEPSpaces,\r\n        \"Specialty Equipment\": BuiltInCategory.OST_SpecialityEquipment,\r\n        \"Sprinklers\": BuiltInCategory.OST_Sprinklers,\r\n        \"Stairs\": BuiltInCategory.OST_Stairs,\r\n        \"Structural Area Reinforcement\": BuiltInCategory.OST_AreaRein,\r\n        \"Structural Beam Systems\": BuiltInCategory.OST_StructuralFramingSystem,\r\n        \"Structural Columns\": BuiltInCategory.OST_StructuralColumns,\r\n        \"Structural Connections\": BuiltInCategory.OST_StructConnections,\r\n        \"Structural Fabric Areas\": BuiltInCategory.OST_FabricAreas,\r\n        \"Structural Fabric Reinforcement\": BuiltInCategory.OST_FabricReinforcement,\r\n        \"Structural Foundations\": BuiltInCategory.OST_StructuralFoundation,\r\n        \"Structural Framing\": BuiltInCategory.OST_StructuralFraming,\r\n        \"Structural Path Reinforcement\": BuiltInCategory.OST_PathRein,\r\n        \"Structural Rebar Couplers\": BuiltInCategory.OST_Coupler,\r\n        \"Structural Rebar\": BuiltInCategory.OST_Rebar,\r\n        \"Structural Stiffeners\": BuiltInCategory.OST_StructuralStiffener,\r\n        \"Structural Trusses\": BuiltInCategory.OST_StructuralTruss,\r\n        \"Switch System\": BuiltInCategory.OST_SwitchSystem,\r\n        \"Telephone Devices\": BuiltInCategory.OST_TelephoneDevices,\r\n        \"Topography\": BuiltInCategory.OST_Topography,\r\n        \"Views\": BuiltInCategory.OST_Views,\r\n        \"Walls\": BuiltInCategory.OST_Walls,\r\n        \"Windows\": BuiltInCategory.OST_Windows,\r\n        \"Wires\": BuiltInCategory.OST_Wire\r\n    }\r\n    return cat_dict\r\n\r\n\r\nclass CombinedDefinitionIpy():\r\n    def __init__(self, internal_definition=None, binding=None, external_definition=None, xls_definition_values_lst=None):\r\n        # Combined Definition Parameters\r\n        self.combined_definition_name = None\r\n        # [CURRENT] Revit Project Attributes\r\n        self.internal_definition = internal_definition\r\n        if self.internal_definition is not None:\r\n            self.internal_definition_name = internal_definition.Name\r\n            self._parameter_group = internal_definition.ParameterGroup\r\n            self.parameter_group_name = LabelUtils.GetLabelFor(internal_definition.ParameterGroup)\r\n            self.parameter_type = internal_definition.ParameterType\r\n            self.parameter_type_name = internal_definition.ParameterType.ToString()\r\n            self.unit_type = internal_definition.UnitType\r\n            self.unit_type_name = internal_definition.UnitType.ToString()\r\n            self._varies_across_groups = internal_definition.VariesAcrossGroups\r\n            self.varies_across_groups_to_xls = \"1\" if internal_definition.VariesAcrossGroups else \"0\"\r\n            self.visible = internal_definition.Visible\r\n        else:\r\n            self.internal_definition = internal_definition\r\n            self.internal_definition_name = None\r\n            self._parameter_group = None\r\n            self.parameter_group_name = None\r\n            self.parameter_type = None\r\n            self.parameter_type_name = None\r\n            self.unit_type = None\r\n            self.unit_type_name = None\r\n            self._varies_across_groups = None\r\n            self.varies_across_groups_to_xls = None\r\n            self.visible = None\r\n        # [CURRENT] Revit Project Binding Attributes\r\n        self.binding = binding\r\n        if self.binding is not None:\r\n            self.binding_type = InstanceBinding if isinstance(binding, InstanceBinding) else TypeBinding\r\n            self.binding_type_bool = None\r\n            self.binding_type_to_xls = \"1\" if isinstance(binding, InstanceBinding) else \"0\"\r\n            self.categories_set = binding.Categories\r\n        else:\r\n            self.binding_type = None\r\n            self.binding_type_bool = None\r\n            self.binding_type_to_xls = None\r\n            self.categories_set = None\r\n        # [CURRENT] Revit Shared Parameters Txt File Attributes\r\n        self.sh_parameter = external_definition\r\n        if self.sh_parameter is not None:\r\n            self.sh_parameter_name = external_definition.Name\r\n            self.sh_parameter_guid = external_definition.GUID\r\n            self.sh_parameter_description = external_definition.Description\r\n            self.sh_parameter_discipline = Autodesk.Revit.DB.UnitUtils.GetUnitGroup(external_definition.UnitType)\r\n            self.sh_parameter_discipline_name = Autodesk.Revit.DB.UnitUtils.GetUnitGroup(external_definition.UnitType)\r\n            self.sh_parameter_unit_type = external_definition.ParameterType\r\n            self.sh_parameter_shared_parameter_group_txt = external_definition.OwnerGroup.Name\r\n        else:\r\n            self.sh_parameter_name = None\r\n            self.sh_parameter_guid = None\r\n            self.sh_parameter_description = None\r\n            self.sh_parameter_discipline = None\r\n            self.sh_parameter_discipline_name = None\r\n            self.sh_parameter_unit_type = None\r\n            self.sh_parameter_shared_parameter_group_txt = None\r\n        # [INPUT] From Xls File Parameters Attributes\r\n        self.xls_definition_values_lst = xls_definition_values_lst\r\n        self.xls_parameter_from_xls_id = None  # NO. -> str\r\n        self.internal_definition_name_from_xls = None  # PARAMETER NAME -> str\r\n        self.parameter_discipline_name_from_xls = None   # PARAMETER DISCIPLINE -> str\r\n        self.parameter_type_name_from_xls = None  # TYPE OF PARAMETER -> str\r\n        self.parameter_description_from_xls = None  # TOOLTIP DESCRIPTION  -> str\r\n        self.parameter_shared_parameter_group_from_xls = None  # PARAMETER GROUP -> str\r\n        self.parameter_guid_from_xls = None  # PARAMETER GUID -> str\r\n        self.parameter_group_name_from_xls = None  # GROUP PARAMETER UNDER -> str\r\n        self.binding_type_from_xls_from_xls = None  # 0 - TYPE / 1 - INSTANCE -> str\r\n        self.varies_across_groups_from_xls = None   # 0 - VALUES PER GROUP TYPE / 1 - BY GROUP INSTANCE -> str\r\n        self.categories_set_names_from_xls = None  # CATEGORIES LIST -> str\r\n        # [CURRENT] Categories Set to Create\r\n        if self.xls_definition_values_lst is not None:\r\n            self._categories_set_to_create = self.categories_set_names_from_xls\r\n        else:\r\n            self._categories_set_to_create = None\r\n        # [OUTPUT] To Xls File Parameters Attributes\r\n        if self.internal_definition is not None:\r\n            self.xls_parameter_to_xls_id = self.xls_parameter_from_xls_id   # NO. -> str Need WORK ON THAT !!!!\r\n            self.internal_definition_name_to_xls = self.internal_definition_name # PARAMETER NAME -> str\r\n            self.parameter_discipline_name_to_xls = self.sh_parameter_discipline_name  # PARAMETER DISCIPLINE -> str\r\n            self.parameter_type_name_to_xls = internal_definition.ParameterType.ToString() # TYPE OF PARAMETER -> str\r\n            self.parameter_description_to_xls = self.sh_parameter_description # TOOLTIP DESCRIPTION  -> str\r\n            self.parameter_shared_parameter_group_to_xls = self.sh_parameter_shared_parameter_group_txt # PARAMETER GROUP -> str\r\n            self.parameter_guid_to_xls = self.sh_parameter_guid  # PARAMETER GUID -> str\r\n            self.parameter_group_name_to_xls = LabelUtils.GetLabelFor(internal_definition.ParameterGroup) # GROUP PARAMETER UNDER -> str\r\n            self.binding_type_to_xls_to_xls = self.binding_type_to_xls  # 0 - TYPE / 1 - INSTANCE -> str\r\n            self.varies_across_groups_to_xls = self.varies_across_groups_to_xls    # 0 - VALUES PER GROUP TYPE / 1 - BY GROUP INSTANCE -> str\r\n            self._categories_set_names_to_xls = []  # CATEGORIES LIST -> str\r\n        else:\r\n            self.xls_parameter_to_xls_id = self.xls_parameter_from_xls_id   # NO. -> str\r\n            self.internal_definition_name_to_xls = None  # PARAMETER NAME -> str\r\n            self.parameter_discipline_name_to_xls = None  # PARAMETER DISCIPLINE -> str\r\n            self.parameter_type_name_to_xls = None  # TYPE OF PARAMETER -> str\r\n            self.parameter_description_to_xls = None  # TOOLTIP DESCRIPTION  -> str\r\n            self.parameter_shared_parameter_group_to_xls = None  # PARAMETER GROUP -> str\r\n            self.parameter_guid_to_xls = None  # PARAMETER GUID -> str\r\n            self.parameter_group_name_to_xls = None  # GROUP PARAMETER UNDER -> str\r\n            self.binding_type_to_xls_to_xls = None  # 0 - TYPE / 1 - INSTANCE -> str\r\n            self.varies_across_groups_to_xls = None  # 0 - VALUES PER GROUP TYPE / 1 - BY GROUP INSTANCE -> str\r\n            self._categories_set_names_to_xls = None  # CATEGORIES LIST -> str\r\n\r\n    @property\r\n    def categories_set_names_to_xls(self):\r\n        these_cats = []\r\n        for cat in self.categories_set:\r\n            try:\r\n                these_cats.append(cat.Name)\r\n            except SystemError:\r\n                pass\r\n        self._categories_set_names_to_xls = \", \".join(these_cats)\r\n        if self.xls_definition_values_lst[10] == \"All\":\r\n            self._categories_set_names_to_xls = \"All\"\r\n        return self._categories_set_names_to_xls\r\n\r\n    @staticmethod\r\n    def create_lst_of_categories(input):\r\n        # Get all categories in the document\r\n        all_categories = doc.Settings.Categories\r\n        categories_str_lst = input.lower().title().replace(\", \", \",\").replace(\"Rvt\", \"RVT\").replace(\"Mep\", \"MEP\").replace(\"Hvac\", \"HVAC\").split(\",\")\r\n        output_categories_rvt_lst = []\r\n        for str_cat in categories_str_lst:\r\n            # 0-301 Number of All Revit Category\r\n            rvt_category = dict_of_builtin_categories().get(str_cat)\r\n            if rvt_category is not None:\r\n                if str(rvt_category.GetType()) == \"IronPython.Runtime.List\":\r\n                    pass\r\n                else:\r\n                    rvt_category = uidoc.Document.Settings.Categories.get_Item(rvt_category)\r\n                output_categories_rvt_lst.append(rvt_category)\r\n        return flatten_list(output_categories_rvt_lst)\r\n\r\n    @property\r\n    def categories_set_to_create(self):\r\n        return self.create_lst_of_categories(self._categories_set_to_create)\r\n\r\n    @staticmethod\r\n    def rvt_group_parameter_under(input_text):\r\n        rvt_parameter_group = dict_of_builtin_pg().get(input_text)\r\n        return rvt_parameter_group\r\n\r\n    @property\r\n    # Group  parameter under (In revit project)\r\n    def parameter_group(self):\r\n        return self.rvt_group_parameter_under(self.parameter_group_name_from_xls)\r\n\r\n    @property\r\n    def varies_across_groups(self):\r\n        if self.binding_type_from_xls_from_xls == \"0\":\r\n            self._varies_across_groups = False\r\n            self.varies_across_groups_to_xls = \"0\"\r\n        if self.varies_across_groups_from_xls == \"0\":\r\n            self._varies_across_groups = False\r\n            self.varies_across_groups_to_xls = \"0\"\r\n        if self.varies_across_groups_from_xls == \"1\":\r\n            self._varies_across_groups = True\r\n            self.varies_across_groups_to_xls = \"1\"\r\n        return self._varies_across_groups\r\n\r\n    def update_combined_definition_name(self):\r\n        input_lst = [self.internal_definition_name, self.sh_parameter_name, self.internal_definition_name_from_xls]\r\n        names_lst = []\r\n        for e in input_lst:\r\n            if e is not None:\r\n                names_lst.append(e)\r\n        name = names_lst[0]\r\n        self.combined_definition_name = name\r\n        return self.combined_definition_name\r\n\r\n    def update_revit_project_attrs(self):\r\n        if self.internal_definition is not None:\r\n            self.internal_definition_name = self.internal_definition.Name\r\n            self._parameter_group = self.internal_definition.ParameterGroup\r\n            self.parameter_group_name = LabelUtils.GetLabelFor(self.internal_definition.ParameterGroup)\r\n            self.parameter_type = self.internal_definition.ParameterType\r\n            self.parameter_type_name = self.internal_definition.ParameterType.ToString()\r\n            self.unit_type = self.internal_definition.UnitType\r\n            self.unit_type_name = self.internal_definition.UnitType.ToString()\r\n            self._varies_across_groups = self.internal_definition.VariesAcrossGroups\r\n            self.varies_across_groups_to_xls = \"1\" if self.internal_definition.VariesAcrossGroups else \"0\"\r\n            self.visible = self.internal_definition.Visible\r\n\r\n    def update_revit_project_binding_attrs(self):\r\n        if self.binding is not None:\r\n            self.binding_type = InstanceBinding if isinstance(self.binding, InstanceBinding) else TypeBinding\r\n            self.binding_type_to_xls = \"1\" if isinstance(self.binding, InstanceBinding) else \"0\"\r\n            self.categories_set = self.binding.Categories\r\n\r\n    def update_sh_parameter_attrs(self):\r\n        # [UPDATE] Revit Shared Parameters Txt File Attributes\r\n        if self.sh_parameter is not None:\r\n            self.sh_parameter_name = self.sh_parameter.Name  # Name\r\n            self.sh_parameter_guid = self.sh_parameter.GUID  # GUID\r\n            self.sh_parameter_description = self.sh_parameter.Description  # Description\r\n            self.sh_parameter_discipline = Autodesk.Revit.DB.UnitUtils.GetUnitGroup(self.sh_parameter.UnitType)\r\n            self.sh_parameter_discipline_name = Autodesk.Revit.DB.UnitUtils.GetUnitGroup( self.sh_parameter.UnitType)\r\n            self.sh_parameter_unit_type = self.sh_parameter.ParameterType\r\n            self.sh_parameter_shared_parameter_group_txt = self.sh_parameter.OwnerGroup.Name # Shared Parameter Group\r\n\r\n    def update_sh_parameter_attrs_by_xls(self):\r\n        if self.xls_definition_values_lst is not None:\r\n            self.sh_parameter_name = self.internal_definition_name_from_xls  # Parameter Name\r\n            self.sh_parameter_description = self.parameter_description_from_xls  # String Description\r\n            self.sh_parameter_unit_type = dict_of_parameter_type().get(self.parameter_type_name_from_xls)\r\n            self.sh_parameter_shared_parameter_group_txt = self.parameter_shared_parameter_group_from_xls  # Shared Parameter GRUP Name\r\n            self._parameter_group = self.rvt_group_parameter_under(self.parameter_group_name_from_xls)\r\n            self._varies_across_groups = self.varies_across_groups\r\n            self.binding_type_bool = False if self.binding_type_from_xls_from_xls == \"0\" else True\r\n            self._categories_set_to_create = self.categories_set_names_from_xls\r\n\r\n    def update_to_xls_parameter_attrs(self):\r\n        if self.internal_definition is not None:\r\n            self.xls_parameter_to_xls_id = self.xls_parameter_from_xls_id  # NO. -> str\r\n            self.internal_definition_name_to_xls = self.internal_definition_name  # PARAMETER NAME -> str\r\n            self.parameter_discipline_name_to_xls = self.sh_parameter_discipline_name  # PARAMETER DISCIPLINE -> str\r\n            self.parameter_type_name_to_xls = self.internal_definition.ParameterType.ToString()  # TYPE OF PARAMETER -> str\r\n            self.parameter_description_to_xls = self.sh_parameter_description  # TOOLTIP DESCRIPTION  -> str\r\n            self.parameter_shared_parameter_group_to_xls = self.sh_parameter_shared_parameter_group_txt  # PARAMETER GROUP -> str\r\n            self.parameter_guid_to_xls = self.sh_parameter_guid  # PARAMETER GUID -> str\r\n            self.parameter_group_name_to_xls = LabelUtils.GetLabelFor(\r\n                self.internal_definition.ParameterGroup)  # GROUP PARAMETER UNDER -> str\r\n            self.binding_type_to_xls_to_xls = self.binding_type_to_xls  # 0 - TYPE / 1 - INSTANCE -> str\r\n            self.varies_across_groups_to_xls = self.varies_across_groups_to_xls  # 0 - VALUES PER GROUP TYPE / 1 - BY GROUP INSTANCE -> str\r\n            self._categories_set_names_to_xls = [cat.Name for cat in self.categories_set]  # CATEGORIES LIST -> str\r\n\r\n    def update_from_xls_parameter_attrs(self):\r\n        if self.xls_definition_values_lst is not None:\r\n            self.xls_parameter_from_xls_id = self.xls_definition_values_lst[0]  # NO. -> str\r\n            self.internal_definition_name_from_xls = self.xls_definition_values_lst[1]  # PARAMETER NAME -> str\r\n            self.parameter_discipline_name_from_xls = self.xls_definition_values_lst[2]  # PARAMETER DISCIPLINE -> str\r\n            self.parameter_type_name_from_xls = self.xls_definition_values_lst[3]  # TYPE OF PARAMETER -> str\r\n            self.parameter_description_from_xls = self.xls_definition_values_lst[4]  # TOOLTIP DESCRIPTION -> str\r\n            self.parameter_shared_parameter_group_from_xls = self.xls_definition_values_lst[5]  # PARAMETER GROUP -> str\r\n            self.parameter_guid_from_xls = self.xls_definition_values_lst[6]  # PARAMETER GUID -> str\r\n            self.parameter_group_name_from_xls = self.xls_definition_values_lst[7]  # GROUP PARAMETER UNDER -> str\r\n            self.binding_type_from_xls_from_xls = self.xls_definition_values_lst[8]  # 0 - TYPE / 1 - INSTANCE -> str\r\n            self.varies_across_groups_from_xls = self.xls_definition_values_lst[9]  # 0 - VALUES PER GROUP TYPE / 1 - BY GROUP INSTANCE -> str\r\n            self.categories_set_names_from_xls = self.xls_definition_values_lst[10]  # CATEGORIES LIST -> str\r\n            self.categories_set_names_from_xls = dict_of_all_categories_from_xls(self.xls_definition_values_lst)\r\n\r\n    def update_all_attrs(self):\r\n        self.update_combined_definition_name()\r\n        self.update_revit_project_attrs()\r\n        self.update_revit_project_binding_attrs()\r\n        self.update_sh_parameter_attrs()\r\n        self.update_to_xls_parameter_attrs()\r\n        self.update_from_xls_parameter_attrs()\r\n\r\n    def get_values_of_the_all_attributes(self):\r\n        revit_project_attrs_lst = [\r\n            self.internal_definition,\r\n            self.internal_definition_name,\r\n            self._parameter_group,\r\n            self.parameter_group_name,\r\n            self.parameter_type,\r\n            self.parameter_type_name,\r\n            self.unit_type,\r\n            self.unit_type_name,\r\n            self.varies_across_groups,\r\n            self.varies_across_groups_to_xls,\r\n            self.visible\r\n        ]\r\n        revit_binding_attrs_lst = [\r\n            self.binding,\r\n            self.binding_type,\r\n            self.binding_type_to_xls,\r\n            self.binding_type_bool,\r\n            self.categories_set,\r\n            self._categories_set_to_create\r\n        ]\r\n        revit_shared_attrs_lst = [\r\n            self.sh_parameter,\r\n            self.sh_parameter_name,  # Parameter Name\r\n            self.sh_parameter_guid,  # GUID code\r\n            self.sh_parameter_description,  # String Description\r\n            self.sh_parameter_discipline,  # Discipline Nmae f. ex. Common -> Revit type\r\n            self.sh_parameter_discipline_name,  # Discipline Nmae f. ex. Common\r\n            self.sh_parameter_unit_type,  # Shared Paramete Unit Type f. ex. Length\r\n            self.sh_parameter_shared_parameter_group_txt  # Shared Parameter GRUP Name\r\n        ]\r\n        xls_from_attrs_lst = [\r\n            self.xls_definition_values_lst,\r\n            self.xls_parameter_from_xls_id,\r\n            self.internal_definition_name_from_xls,\r\n            self.parameter_discipline_name_from_xls,\r\n            self.parameter_type_name_from_xls,\r\n            self.parameter_description_from_xls,\r\n            self.parameter_shared_parameter_group_from_xls,\r\n            self.parameter_guid_from_xls,\r\n            self.parameter_group_name_from_xls,\r\n            self.binding_type_from_xls_from_xls,\r\n            self.varies_across_groups_from_xls,\r\n            self.categories_set_names_from_xls,\r\n        ]\r\n        xls_to_attrs_lst = [\r\n            self.xls_parameter_to_xls_id,\r\n            self.internal_definition_name_to_xls,\r\n            self.parameter_discipline_name_to_xls,\r\n            self.parameter_type_name_to_xls,\r\n            self.parameter_description_to_xls,\r\n            self.parameter_shared_parameter_group_to_xls,\r\n            self.parameter_guid_to_xls,\r\n            self.parameter_group_name_to_xls,\r\n            self.binding_type_to_xls_to_xls,\r\n            self.varies_across_groups_to_xls,\r\n            self._categories_set_names_to_xls\r\n        ]\r\n        all_attr_lst = [\r\n            revit_project_attrs_lst,\r\n            revit_binding_attrs_lst,\r\n            revit_shared_attrs_lst,\r\n            xls_from_attrs_lst,\r\n            xls_to_attrs_lst\r\n        ]\r\n        return all_attr_lst\r\n\r\n    def get_values_to_xls_attributes(self):\r\n        return (\r\n            self.xls_parameter_to_xls_id,\r\n            self.internal_definition_name_to_xls,\r\n            self.parameter_discipline_name_to_xls,\r\n            self.parameter_type_name_to_xls,\r\n            self.parameter_description_to_xls,\r\n            self.parameter_shared_parameter_group_to_xls,\r\n            self.parameter_guid_to_xls,\r\n            self.parameter_group_name_to_xls,\r\n            self.binding_type_to_xls_to_xls,\r\n            self.varies_across_groups_to_xls,\r\n            self._categories_set_names_to_xls\r\n        )\r\n\r\n    def get_values_from_xls_attributes(self):\r\n        return (\r\n            self.xls_parameter_from_xls_id,\r\n            self.internal_definition_name_from_xls,\r\n            self.parameter_discipline_name_from_xls,\r\n            self.parameter_type_name_from_xls,\r\n            self.parameter_description_from_xls,\r\n            self.parameter_shared_parameter_group_from_xls,\r\n            self.parameter_guid_from_xls,\r\n            self.parameter_group_name_from_xls,\r\n            self.binding_type_from_xls_from_xls,\r\n            self.varies_across_groups_from_xls,\r\n            self.categories_set_names_from_xls\r\n        )\r\n\r\n\r\n# Get a list of all shared parameter groups and their parameters\r\ndef get_existing_shared_parameters_from_txt():\r\n    definition_file = app.OpenSharedParameterFile()\r\n    groups = definition_file.Groups\r\n    existing_shared_parameters_from_txt_lst = []\r\n    for group in groups:\r\n        group_name = group.Name\r\n        shared_parameterss = group.Definitions\r\n        for shared_parameter in shared_parameterss:\r\n            existing_shared_parameter = CombinedDefinitionIpy()\r\n            existing_shared_parameter.sh_parameter = shared_parameter\r\n            existing_shared_parameter.update_sh_parameter_attrs()\r\n            existing_shared_parameter.update_combined_definition_name()\r\n            existing_shared_parameters_from_txt_lst.append(existing_shared_parameter)\r\n    return existing_shared_parameters_from_txt_lst\r\n\r\n\r\ndef create_dataset_of_internal_and_external_definitions_pairs():\r\n    # Take all existing Revit Project Parameters\r\n    internal_and_external_definitions_pairs_lst = []\r\n    iterator = doc.ParameterBindings.ForwardIterator()\r\n    while iterator.MoveNext():\r\n        # Get Internal Definition & Binding\r\n        rvt_internal_definition = iterator.Key  # InternalDefinitions Class\r\n        rvt_binding_class = iterator.Current  # TypeBinding or InstanceBinding Class\r\n        # Get External Definition and Crate tuple with Internal Definition\r\n        definition_file = app.OpenSharedParameterFile()\r\n        groups = definition_file.Groups\r\n        existing_shared_parameters_from_txt_lst = []\r\n        for group in groups:\r\n            group_name = group.Name\r\n            parameters = group.Definitions\r\n            for external_definition in parameters:\r\n                external_definition_name = external_definition.Name\r\n                if external_definition_name == rvt_internal_definition.Name:\r\n                    internal_and_external_definitions_pairs_lst.append(\r\n                        (rvt_internal_definition, rvt_binding_class, external_definition))\r\n    return internal_and_external_definitions_pairs_lst\r\n\r\n\r\ndef get_revit_project_parameters_with_binding():\r\n    # Get Internal and External Definitions Pairs tuples\r\n    internal_and_external_definitions_datasets_lst = create_dataset_of_internal_and_external_definitions_pairs()\r\n\r\n    # Create Ipy Objects of existing Revit Project Parameters\r\n    combined_definition_ipy_objects_lst = []\r\n    for element in internal_and_external_definitions_datasets_lst:\r\n        combined_definition = CombinedDefinitionIpy(internal_definition=element[0], binding=element[1],\r\n                                                    external_definition=element[2],\r\n                                                    xls_definition_values_lst=None)\r\n        combined_definition_ipy_objects_lst.append(combined_definition)\r\n    # Add dataset from Xls file to CombinedDefinition Instance\r\n    combined_definition_lst = []\r\n    for combined_definition in combined_definition_ipy_objects_lst:\r\n        for xls_dataset in from_xls_parameters_dataset_lst:\r\n            xls_parameter_name = xls_dataset[1]\r\n            if combined_definition.internal_definition_name == xls_parameter_name:\r\n                combined_definition.xls_definition_values_lst = xls_dataset\r\n                combined_definition.update_from_xls_parameter_attrs()\r\n                combined_definition.update_combined_definition_name()\r\n        combined_definition_lst.append(combined_definition)\r\n    return combined_definition_lst\r\n\r\n\r\ndef get_xls_file_parameters():\r\n    combined_definition_lst = []\r\n    for xls_dataset in from_xls_parameters_dataset_lst:\r\n        combined_definition = CombinedDefinitionIpy()\r\n        combined_definition.xls_definition_values_lst = xls_dataset\r\n        combined_definition.update_from_xls_parameter_attrs()\r\n        combined_definition_lst.append(combined_definition)\r\n    return combined_definition_lst\r\n\r\n\r\ndef list_remove_duplicates_by_combined_parameter_name(joined_lst):\r\n    new_list = []\r\n    for obj in joined_lst:\r\n        obj.update_combined_definition_name()\r\n        if not any(o.combined_definition_name == obj.combined_definition_name for o in new_list):\r\n            new_list.append(obj)\r\n    return new_list\r\n\r\n\r\ndef list_get_duplicates_by_combined_parameter_name(joined_lst):\r\n    new_list = []\r\n    duplicates = []\r\n    for obj in joined_lst:\r\n        obj.update_combined_definition_name()\r\n        if any(o.combined_definition_name == obj.combined_definition_name for o in new_list):\r\n            duplicates.append(obj)\r\n        else:\r\n            new_list.append(obj)\r\n    return duplicates\r\n\r\n\r\ndef test_1(lst):\r\n    lst_len = len(lst)\r\n    error_log = \"TEST 1:\" + \"\\n\"\r\n    if lst_len == 0:\r\n        error_log += \"    - There is no duplicated names in the Xls file.\"\r\n    else:\r\n        duplicated_names = []\r\n        for e in lst:\r\n            duplicated_names.append(e.combined_definition_name)\r\n        duplicated_names.sort()\r\n        error_log += \"   - The Xls file contains shared parameters with duplicated names:\" + \"\\n\"\r\n        error_log += '\\n'.join([\"      - \" + str(t) for t in duplicated_names])\r\n    return error_log\r\n\r\n\r\ndef get_unique_objects(list_a, list_b):\r\n    # Get combined definition names of elements in list b\r\n    names_b = []\r\n    for elem in list_b:\r\n        names_b.append(elem.combined_definition_name)\r\n    # Get all elements from a list if they don't exist in list b\r\n    result = []\r\n    for elem in list_a:\r\n        if elem.combined_definition_name not in names_b:\r\n            result.append(elem)\r\n    return result\r\n\r\n\r\ndef get_names(lst):\r\n    result = []\r\n    for e in lst:\r\n        result.append(e.combined_definition_name)\r\n    return result\r\n\r\n\r\ndef test_2(list_a, list_b):\r\n    # Get combined definition names of elements in list b\r\n    names_b = []\r\n    for elem in list_b:\r\n        names_b.append(elem.combined_definition_name)\r\n    # Get all elements from a list if they don't exist in list b\r\n    result_false = []\r\n    result_true = []\r\n    for elem in list_a:\r\n        if elem.combined_definition_name in names_b:\r\n            result_false.append(elem)\r\n        else:\r\n            result_true.append(elem)\r\n    error_log_false = \"\"\r\n    error_log_true = \"\"\r\n    if len(result_true) != 0:\r\n        error_log_true = \"TEST 2:\" + \"\\n\" + \"   - The XLS file does not contains shared parameters with names that already exist.\" + \"\\n\"\r\n        error_log_true += '\\n'.join(\r\n            [\"      - Parameter \" + str(t.combined_definition_name) + \" created in the shared parameter txt file.\" for t\r\n             in result_true])\r\n    if len(result_false) != 0:\r\n        error_log_false = \"TEST 2:\" + \"\\n\" + \"   - The XLS file contains shared parameters with names that already exist.\" + \"\\n\"\r\n        error_log_false += '\\n'.join(\r\n            [\"      - Parameter \" + str(\r\n                t.combined_definition_name) + \" was not created in the shared parameter txt file.\" for t in\r\n             result_false])\r\n    error_log_2 = '\\n'.join([error_log_false, error_log_true])\r\n    return error_log_2\r\n\r\n\r\n# Create New Shared Parameter and New Group in Shared Parameter from Instance Class\r\ndef create_new_group_and_new_parameter(combined_definition_ipy):\r\n    # Get values of attributes\r\n    combined_definition_ipy.update_sh_parameter_attrs_by_xls()\r\n    new_sh_parameter_name = combined_definition_ipy.sh_parameter_name\r\n    new_sh_parameter_type = combined_definition_ipy.sh_parameter_unit_type\r\n    new_sh_parameter_description = combined_definition_ipy.sh_parameter_description\r\n    new_parameter_group_name = combined_definition_ipy.sh_parameter_shared_parameter_group_txt\r\n    # Open Shared Parameters Txt file\r\n    shared_param_file = app.OpenSharedParameterFile()\r\n    new_parameter = Autodesk.Revit.DB.ExternalDefinitionCreationOptions(new_sh_parameter_name, new_sh_parameter_type)\r\n    new_parameter.Description = new_sh_parameter_description\r\n    # Create\r\n    new_group_and_new_parameter = shared_param_file.Groups.Create(new_parameter_group_name).Definitions.Create(\r\n        new_parameter)\r\n    combined_definition_ipy.sh_parameter = new_group_and_new_parameter\r\n    return new_group_and_new_parameter\r\n\r\n\r\n# Create New Parameter and Add to existing Group in Shared Parameter from Instance Class\r\ndef create_new_parameter_and_add_to_existing_group(combined_definition_ipy):\r\n    # Get values of attributes\r\n    combined_definition_ipy.update_sh_parameter_attrs_by_xls()\r\n    new_sh_parameter_name = combined_definition_ipy.sh_parameter_name\r\n    new_sh_parameter_type = combined_definition_ipy.sh_parameter_unit_type\r\n    new_sh_parameter_description = combined_definition_ipy.sh_parameter_description\r\n    new_parameter_group_name = combined_definition_ipy.sh_parameter_shared_parameter_group_txt\r\n    # Open Shared Parameters Txt file\r\n    shared_param_file = app.OpenSharedParameterFile()\r\n    shared_parameter_groups = shared_param_file.Groups\r\n    existing_group = shared_parameter_groups.get_Item(new_parameter_group_name)\r\n    new_parameter = Autodesk.Revit.DB.ExternalDefinitionCreationOptions(new_sh_parameter_name, new_sh_parameter_type)\r\n    new_parameter.Description = new_sh_parameter_description\r\n    # Create\r\n    new_parameter_and_add_to_existing_group = existing_group.Definitions.Create(new_parameter)\r\n    combined_definition_ipy.sh_parameter = new_parameter_and_add_to_existing_group\r\n    return new_parameter_and_add_to_existing_group\r\n\r\n\r\n# Create New Shared Parameters from List\r\ndef create_new_sh_parameters_by_lst_of_instances_of_shared_parameter_ipy(list_of_instances_of_shared_parameter_ipy):\r\n    for shp_instance in list_of_instances_of_shared_parameter_ipy:\r\n        try:\r\n            # Step 5 - Create New Parameters And New Groups\r\n            new_sh_parameter = create_new_group_and_new_parameter(shp_instance)\r\n        except:\r\n            # Step 6 - Create Mew Parameters And Add to Existing Groups\r\n            new_sh_parameter = create_new_parameter_and_add_to_existing_group(shp_instance)\r\n        new_sh_parameter_guid = new_sh_parameter.GUID\r\n        shp_instance.sh_parameter_guid = new_sh_parameter_guid\r\n        shp_instance.parameter_guid_from_xls = new_sh_parameter_guid\r\n        shp_instance.parameter_guid_to_xls = new_sh_parameter_guid\r\n        shp_instance.update_sh_parameter_attrs()\r\n    return list_of_instances_of_shared_parameter_ipy\r\n\r\n\r\ndef update_existing_combined_parameters_lst_by_xls_datasets():\r\n    result = []\r\n    combined_parameters_lst = get_existing_shared_parameters_from_txt()\r\n    combined_parameters_from_xls_file_lst = get_xls_file_parameters()\r\n    for combined_parameter in combined_parameters_lst:\r\n        combined_parameter_name = combined_parameter.sh_parameter_name\r\n        for combined_parameter_xls in combined_parameters_from_xls_file_lst:\r\n            combined_parameter_xls_name = combined_parameter_xls.internal_definition_name_from_xls\r\n            if combined_parameter_name == combined_parameter_xls_name:\r\n                combined_parameter.xls_definition_values_lst = combined_parameter_xls.xls_definition_values_lst\r\n                combined_parameter.update_from_xls_parameter_attrs()\r\n                combined_parameter.update_all_attrs()\r\n                combined_parameter.update_combined_definition_name()\r\n                result.append(combined_parameter)\r\n    return result\r\n\r\n\r\ndef test_3(list_a, list_b):\r\n    # Get combined definition names of elements in list b\r\n    names_b = []\r\n    for elem in list_b:\r\n        names_b.append(elem.combined_definition_name)\r\n    # Get all elements from a list if they don't exist in list b\r\n    result_false = []\r\n    result_true = []\r\n    for elem in list_a:\r\n        if elem.combined_definition_name in names_b:\r\n            result_false.append(elem)\r\n        else:\r\n            result_true.append(elem)\r\n    error_log_false = \"\"\r\n    error_log_true = \"\"\r\n    # result_true = result_true.sort(key=lambda x: x.combined_definition_name)\r\n    # result_false = result_false.sort(key=lambda x: x.combined_definition_name)\r\n    if len(result_true) != 0:\r\n        error_log_true = \"TEST 3:\" + \"\\n\" + \"   - The Revit Project does not contains shared parameters with names that already exist.\" + \"\\n\"\r\n        error_log_true += '\\n'.join(\r\n            [\"      - Parameter \" + str(t.combined_definition_name) + \" created in the Revit project.\" for t\r\n             in result_true])\r\n    if len(result_false) != 0:\r\n        error_log_false = \"TEST 3:\" + \"\\n\" + \"   - The Revit Project contains shared parameters with names that already exist.\" + \"\\n\"\r\n        error_log_false += '\\n'.join(\r\n            [\"      - Parameter \" + str(\r\n                t.combined_definition_name) + \" was not created in the Revit project.\" for t in\r\n             result_false])\r\n    error_log_3 = '\\n'.join([error_log_false, error_log_true])\r\n    return error_log_3\r\n\r\n\r\ndef get_internal_definitions_by_name(name=None):\r\n    selected_internal_parameter = None\r\n    iterator = doc.ParameterBindings.ForwardIterator()\r\n    while iterator.MoveNext():\r\n        object_ipy = CombinedDefinitionIpy(internal_definition=iterator.Key, binding=iterator.Current,\r\n                                           external_definition=None, xls_definition_values_lst=None)\r\n        internal_definition = object_ipy.internal_definition\r\n        internal_definition_name = internal_definition.Name\r\n        if internal_definition_name == name:\r\n            selected_internal_parameter = internal_definition\r\n    return selected_internal_parameter\r\n\r\n\r\n# REVIT API EXAMPLE\r\ndef set_new_parameter_as_instance(new_p_ipy):\r\n    # \"https://www.revitapidocs.com/2015/7978cb57-0a48-489e-2c8f-116fa2561437.htm\"\r\n\r\n    # new_p_ipy_categ_str_lst = new_p_ipy.categories_set_names_from_xls\r\n    # new_p_ipy._categories_set_to_create = new_p_ipy_categ_str_lst\r\n\r\n    new_p_ipy.update_from_xls_parameter_attrs()\r\n    # create a category set and insert category of wall to it\r\n    my_categories = app.Create.NewCategorySet()\r\n    # use BuiltInCategory to get category of wall\r\n    parameter_categories_lst = new_p_ipy.categories_set_to_create\r\n    new_p_ipy.update_sh_parameter_attrs_by_xls()\r\n    for my_category in parameter_categories_lst:\r\n        if my_category is not None:\r\n            if my_category.AllowsBoundParameters:\r\n                my_categories.Insert(my_category)\r\n    # Create an instance of InstanceBinding\r\n    instance_binding = app.Create.NewInstanceBinding(my_categories)\r\n    # Get the BindingMap of current document.\r\n    binding_map = uidoc.Document.ParameterBindings\r\n    # Bind the definitions to the document\r\n    try:\r\n        instance_bind_ok = binding_map.Insert(new_p_ipy.sh_parameter, instance_binding, new_p_ipy.parameter_group)\r\n        internal_definition = get_internal_definitions_by_name(new_p_ipy.sh_parameter_name)\r\n        # https://www.revitapidocs.com/2015/9fe3c8c4-9b64-ba8f-5626-730c59417a87.htm\r\n        try:\r\n            internal_definition.SetAllowVaryBetweenGroups(doc, new_p_ipy.varies_across_groups)\r\n            error_log_4 = \"   - Parameter \" + new_p_ipy.sh_parameter_name + \" created in Revit Project.\"\r\n        except:\r\n            error_log_4 = \"   - Parameter \" + new_p_ipy.sh_parameter_name + \" does not allow to vary value by group instance.\"\r\n    except:\r\n        instance_bind_ok = False\r\n        error_log_4 = \"\"\r\n    return instance_bind_ok, error_log_4\r\n\r\n\r\ndef set_new_parameter_as_type(new_p_ipy):\r\n    # https://www.revitapidocs.com/2017/f5066ef5-fa12-4cd2-ad0c-ca72ab21e479.htm\r\n\r\n    # new_p_ipy_categ_str_lst = new_p_ipy.categories_set_names_from_xls\r\n    # new_p_ipy._categories_set_to_create = new_p_ipy_categ_str_lst\r\n\r\n    new_p_ipy.update_from_xls_parameter_attrs()\r\n    # create a category set and insert category of wall to it\r\n    my_categories = app.Create.NewCategorySet()\r\n    # use BuiltInCategory to get category of wall\r\n    parameter_categories_lst = new_p_ipy.categories_set_to_create\r\n    new_p_ipy.update_sh_parameter_attrs_by_xls()\r\n    for my_category in parameter_categories_lst:\r\n        if my_category is not None:\r\n            if my_category.AllowsBoundParameters:\r\n                my_categories.Insert(my_category)\r\n    # Create an instance of InstanceBinding\r\n    type_binding = app.Create.NewTypeBinding(my_categories)\r\n    # Get the BindingMap of current document.\r\n    binding_map = uidoc.Document.ParameterBindings\r\n    # Bind the definitions to the document\r\n    try:\r\n        type_bind_ok = binding_map.Insert(new_p_ipy.sh_parameter, type_binding,  new_p_ipy.parameter_group)\r\n        error_log_4 = \"   - Parameter \" + new_p_ipy.sh_parameter_name + \" created in Revit Project.\"\r\n    except:\r\n        type_bind_ok = False\r\n        error_log_4 = \"  - Parameter \" + new_p_ipy.sh_parameter_name + \" does not supported specified Categories.\"\r\n    return type_bind_ok, error_log_4\r\n\r\n\r\ndef create_new_project_parameters_from_combined_parameters_lst(combined_parameters_lst):\r\n    bind_ok_lst = []\r\n    error_log_4 = [\"TEST 4:\"]\r\n    for combined_parameter in combined_parameters_lst:\r\n        combined_parameter.update_sh_parameter_attrs_by_xls()\r\n        combined_parameter_bool = combined_parameter.binding_type_bool\r\n        TransactionManager.Instance.EnsureInTransaction(doc)\r\n        if combined_parameter_bool is False:\r\n            # Create New Type Parameter\r\n            new_param_info = set_new_parameter_as_type(combined_parameter)\r\n        if combined_parameter_bool is True:\r\n            # Create New Instance Parameter\r\n            new_param_info = set_new_parameter_as_instance(combined_parameter)\r\n        # set_new_parameter_as_type(shared_parameter_definition, parameter_name)\r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        bind_ok_lst.append(new_param_info[0])\r\n        error_log_4.append(new_param_info[1])\r\n        combined_parameter.update_all_attrs()\r\n    error_log_4 = '\\n'.join(error_log_4)\r\n    return combined_parameters_lst, bind_ok_lst, error_log_4\r\n\r\n\r\n# Step 1 - Get all existing shared parameters from Shared_Parameters.txt\r\n# -> List of IronPython Class' objects\r\nexisting_sh_parameters_from_txt_lst = get_existing_shared_parameters_from_txt()\r\n\r\n# Step 2 - Get all Revit Project Shared Parameters from Revit Project and Add data from Xls\r\n# -> List of IronPython Class' objects\r\nexisting_project_parameters_from_rvt_file_lst = get_revit_project_parameters_with_binding()\r\n\r\n# Step 3 - Get all Xls Project Shared Parameters from Xls file\r\n# -> List of IronPython Class' objects\r\n# Step 3.1 - Get Parameters -> List of IronPython Class' objects\r\nexisting_project_parameters_from_xls_file_lst = get_xls_file_parameters()\r\n# Step 3.2 - Test 1 - Check if there are duplicated parameter names in xls file -> error_log\r\nexisting_project_parameters_duplicates = list_get_duplicates_by_combined_parameter_name(\r\n    existing_project_parameters_from_xls_file_lst)\r\nerror_log = test_1(existing_project_parameters_duplicates)\r\n# Step 3.3 - Remove duplicates from list\r\nexisting_project_parameters_from_xls_file_lst = list_remove_duplicates_by_combined_parameter_name(\r\n    existing_project_parameters_from_xls_file_lst)\r\n\r\n# Step 4 - Compare Xls Parameters with Shared Parameters file and Get Unique Values\r\n# -> List of IronPython Class' objects\r\nunique_parameters_to_create = get_unique_objects(existing_project_parameters_from_xls_file_lst,\r\n                                                 existing_sh_parameters_from_txt_lst)\r\n# Step 4.1 - Test 2 - Check if there are duplicated parameter names in xls and txt file  -> error_log\r\nerror_log_2 = test_2(existing_project_parameters_from_xls_file_lst, existing_sh_parameters_from_txt_lst)\r\n# Step 4.2 - Create new shared Parameters # -> List of IronPython Class' objects\r\nnew_shared_parameters_from_xls_lst = create_new_sh_parameters_by_lst_of_instances_of_shared_parameter_ipy(\r\n    unique_parameters_to_create)\r\n\r\n# Step 5 - New project parameters\r\n# -> List of IronPython Class' objects\r\nupdated_sh_parameters_from_txt_lst = update_existing_combined_parameters_lst_by_xls_datasets()\r\nunique_parameters_to_create_in_rvt_project = get_unique_objects(updated_sh_parameters_from_txt_lst,\r\n                                                                existing_project_parameters_from_rvt_file_lst)\r\n# Step 5.1 - Test 3 - Check  if new shared parameter names exist in current project.\r\nerror_log_3 = test_3(updated_sh_parameters_from_txt_lst, existing_project_parameters_from_rvt_file_lst)\r\n# Step 5.2 - Create New project parameters\r\n# -> List of IronPython Class' objects\r\nnew_param_dataset = create_new_project_parameters_from_combined_parameters_lst(\r\n    unique_parameters_to_create_in_rvt_project)\r\n# Step 5.3 - Test 4 - Feedback about created/uncreated new rvt project parameters\r\nerror_log_4 = new_param_dataset[2]\r\n# Step 5.2 - Created New project parameters\r\n# -> List of IronPython Class' objects\r\nnew_combined_parameters_lst = new_param_dataset[0]\r\n\r\n# Step 6 - Update combined parameters\r\ncurrent_combined_parameters_from_rvt_project = get_revit_project_parameters_with_binding()\r\noutput = []\r\nfor combined_definition in current_combined_parameters_from_rvt_project:\r\n    combined_definition.update_combined_definition_name()\r\n    combined_definition.update_all_attrs()\r\n    combined_definition.update_from_xls_parameter_attrs()\r\n    try:\r\n        test = combined_definition.xls_definition_values_lst[10]\r\n    except:\r\n        test = False\r\n    if test == \"All\":\r\n        combined_definition._categories_set_names_to_xls = \"All\"\r\n    else:\r\n        combined_definition._categories_set_names_to_xls = \", \".join(combined_definition._categories_set_names_to_xls)\r\n    output.append(combined_definition.get_values_to_xls_attributes())\r\n\r\nerror_summary = '\\n'.join([error_log, error_log_2, error_log_3, error_log_4])\r\n\r\nOUT = error_summary, output\r\n",
+      "VariableInputPorts": true,
+      "Id": "bbe425eedbd3411f99d9d8736a82a0f5",
+      "Inputs": [
+        {
+          "Id": "0064d53e24df45c49d58f710c95e0534",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "b637b8ad987e4306b51bfbbb1475a86f",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "29290d8645d94e37a9e4b789b72a3475",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Filename, CoreNodeModels",
+      "HintPath": "C:\\Users\\User_REBEL\\Desktop\\parameter by xls\\SHARED_PARAM_NEW.xlsx",
+      "InputValue": "..\\SHARED_PARAM_NEW.xlsx",
+      "NodeType": "ExtensionNode",
+      "Id": "d1b5ca5fc99c41debae078d48d67bb2c",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f2b4f9b235f3444c9a30a5aac401efb8",
+          "Name": "",
+          "Description": "Filename",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a file on the system to get its filename"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "e4446d77478144208d75e223063e43c2",
+      "End": "72f2fe7e85c349f3ac0b4505caf66315",
+      "Id": "eba269ccf98347dda71773be81932012"
+    },
+    {
+      "Start": "dacf882671a449caafc8243258e13166",
+      "End": "65506585462e4f4b97130c03135acd63",
+      "Id": "394270eeb8494acca4abdb996134b109"
+    },
+    {
+      "Start": "5e50a562aafa4a8799d86107169bafb6",
+      "End": "f4127d9a3a2f497c89053157e688a689",
+      "Id": "b75b8a9820b44da1967512cd8f374eb5"
+    },
+    {
+      "Start": "e6fc8d4a6b83428ca6a82c3e56331f3a",
+      "End": "74df31aaba764b998727615ee35f6b67",
+      "Id": "84ce81f2a6b54de597fbd0b13d8bc9a5"
+    },
+    {
+      "Start": "8d5139d29f154ed1916c52d454eef72d",
+      "End": "39e579db2e1a44a9ae80fe4a3ef62d21",
+      "Id": "d4f161655fd8482da830eb32ad7bbf80"
+    },
+    {
+      "Start": "8d5139d29f154ed1916c52d454eef72d",
+      "End": "54ada62d5c1d4cc1abbcb998e4b0f02e",
+      "Id": "9ce08bdbb32741ba93f6612b0846a008"
+    },
+    {
+      "Start": "b3aab78861a4400cb08885c2012e9201",
+      "End": "1a368895b4344421b2f2f3f373c1aad6",
+      "Id": "9db02cd4ac994f7cb48e2216e95d0fe9"
+    },
+    {
+      "Start": "b3aab78861a4400cb08885c2012e9201",
+      "End": "0762af11d9014af6aad32a46f0f2cf2e",
+      "Id": "f4e3c63cb2df4ce49307ec88037bf6f7"
+    },
+    {
+      "Start": "c32243bd98b24343a3e2e28e0fc5f0c0",
+      "End": "0064d53e24df45c49d58f710c95e0534",
+      "Id": "5387f3cb125e41b1b078f193becd69a4"
+    },
+    {
+      "Start": "c85d529d85364a459b95798096de8aa4",
+      "End": "b637b8ad987e4306b51bfbbb1475a86f",
+      "Id": "19f2170bd9664a19b6827acad3eee12f"
+    },
+    {
+      "Start": "e3456f0664ff453c85cab04883b8f5e8",
+      "End": "0bfba487074449419fccb219d51339a3",
+      "Id": "601c8826bf694b01ae61fa80e773047a"
+    },
+    {
+      "Start": "a09da3562a7f41e08012515f29cae17d",
+      "End": "e98a5d0c9a61430f8f70706003eda73c",
+      "Id": "a72f226e678a4a0a974a18badfee67d7"
+    },
+    {
+      "Start": "f1bf9b5d60e54a4cb41f97d71a936e7d",
+      "End": "69e1220d6e174ef78a069d9059f8bee6",
+      "Id": "5e97ebe291d945e3ab335cdc6c1677b4"
+    },
+    {
+      "Start": "94a6f0f7e7674d7594de16fc527fe76a",
+      "End": "9bde73d373f1498e9846a9b71dc8b340",
+      "Id": "390f82520ca94a76afe577d90034539b"
+    },
+    {
+      "Start": "5e316e77e36a499789604c431d7fdec2",
+      "End": "4c93fb3735314072a202e7ff0b879e09",
+      "Id": "2cc045dd6ef84c5aab6181ff9cced55b"
+    },
+    {
+      "Start": "3022d7cea3e54cd58e551def3db3ba06",
+      "End": "323fcb7b7ade44aca5540fddfb1039bc",
+      "Id": "336ee51651304e32aaad642743ce122a"
+    },
+    {
+      "Start": "2b089747affa415f8804222ce9015df4",
+      "End": "a71da3b619b4421bb716442f663f28a0",
+      "Id": "d01d4db7074f47688ebb77db394ed4b0"
+    },
+    {
+      "Start": "29290d8645d94e37a9e4b789b72a3475",
+      "End": "e2b2f83b9abd4bd398eaa9a15e7f4a10",
+      "Id": "586ee6cab50246d7b932da30091be80d"
+    },
+    {
+      "Start": "f2b4f9b235f3444c9a30a5aac401efb8",
+      "End": "6ddf0dcacfbb476086972b27f346c0cd",
+      "Id": "8c0c4f2ab6fc41e58f9daf1892018a5f"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.4.12684",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "INPUT XLS FILE",
+        "Id": "a74272876593491c95999ad4844d10c8",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 341.23263790252167,
+        "Y": 698.05205016156685
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "eff8a246ffd44a85bbb205eab6ba2471",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 821.9836582492527,
+        "Y": 1197.2627504268496
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Data.ImportExcel",
+        "Id": "f405ca4cc7ab4014b01d30bb5302feba",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 953.66831786291073,
+        "Y": 1083.1949191700764
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "56d80afa3a7f4408873fafbb2489871e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 772.40107014664011,
+        "Y": 898.16958634206662
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "File From Path",
+        "Id": "ec2e80dac8c2477ab94e1d85e1d08459",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 616.54947109412365,
+        "Y": 924.11955303034415
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "List.Deconstruct",
+        "Id": "263a6859aca4497982b3541615ca5ac3",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1213.7286534194004,
+        "Y": 1086.9933602495462
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Data.ExportExcel",
+        "Id": "607f01b722ee441ab50cb980c9302b8b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1945.9215770899336,
+        "Y": 704.92946981453611
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "94d08fc484a74296aa9befee85a10c6c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1811.2503992048187,
+        "Y": 789.93113762132134
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "File From Path",
+        "Id": "42131ea9f37446679b705cfe46ffcc8d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 610.24486323040549,
+        "Y": 1033.4757416875952
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "ERROR LOG FILE",
+        "Id": "14a4701281354dd59d8ebca67c668d8a",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 342.18018600843084,
+        "Y": 875.774398261055
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "WRITE ERROR LOG TO TXT",
+        "Id": "9a69d710f28743a6b1725bdb2b612880",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1970.3908921528891,
+        "Y": 956.62187820308554
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "f24dee7726414625a99a88a859a340b6",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1607.9229055740327,
+        "Y": 1114.7397859642424
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "bbe425eedbd3411f99d9d8736a82a0f5",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1451.6143330578459,
+        "Y": 1106.9298092874915
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "OUTPUT XLS FILE",
+        "Id": "d1b5ca5fc99c41debae078d48d67bb2c",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 341.46169306728882,
+        "Y": 784.58710466772527
+      }
+    ],
+    "Annotations": [
+      {
+        "Id": "3a71e7ba394b4fe8905a6081708e1626",
+        "Title": "OUTPUTS",
+        "Nodes": [
+          "607f01b722ee441ab50cb980c9302b8b",
+          "94d08fc484a74296aa9befee85a10c6c",
+          "9a69d710f28743a6b1725bdb2b612880"
+        ],
+        "Left": 1801.2503992048187,
+        "Top": 651.72946981453606,
+        "Width": 369.87117788511478,
+        "Height": 423.09240838854947,
+        "FontSize": 36.0,
+        "InitialTop": 704.92946981453611,
+        "InitialHeight": 396.69240838854944,
+        "TextblockHeight": 43.2,
+        "Background": "#FFBB87C6"
+      },
+      {
+        "Id": "90338bef5ae648dead0709644b52e0ad",
+        "Title": "READ XLS",
+        "Nodes": [
+          "eff8a246ffd44a85bbb205eab6ba2471",
+          "f405ca4cc7ab4014b01d30bb5302feba",
+          "56d80afa3a7f4408873fafbb2489871e",
+          "ec2e80dac8c2477ab94e1d85e1d08459",
+          "263a6859aca4497982b3541615ca5ac3",
+          "42131ea9f37446679b705cfe46ffcc8d"
+        ],
+        "Left": 600.24486323040549,
+        "Top": 844.96958634206658,
+        "Width": 783.48379018899493,
+        "Height": 454.493164084783,
+        "FontSize": 36.0,
+        "InitialTop": 898.16958634206662,
+        "InitialHeight": 444.093164084783,
+        "TextblockHeight": 43.2,
+        "Background": "#FFA4E1FF"
+      },
+      {
+        "Id": "d0af254c38ef4f18a9f6afa233d71c72",
+        "Title": "INPUTS",
+        "Nodes": [
+          "a74272876593491c95999ad4844d10c8",
+          "14a4701281354dd59d8ebca67c668d8a",
+          "d1b5ca5fc99c41debae078d48d67bb2c"
+        ],
+        "Left": 331.23263790252167,
+        "Top": 644.85205016156681,
+        "Width": 202.62905516476712,
+        "Height": 324.32234809948818,
+        "FontSize": 36.0,
+        "InitialTop": 698.05205016156685,
+        "InitialHeight": 322.72234809948816,
+        "TextblockHeight": 43.2,
+        "Background": "#FFBB87C6"
+      },
+      {
+        "Id": "310903ce459748f78c4018d771aad5a9",
+        "Title": "PYTHON<DESCRPTION>",
+        "Nodes": [
+          "3df54130e73a48ef865c6e7764e3dbb3"
+        ],
+        "Left": 1355.5388565092053,
+        "Top": 395.2698506890614,
+        "Width": 407.56666666666672,
+        "Height": 97.6,
+        "FontSize": 36.0,
+        "InitialTop": 448.46985068906139,
+        "InitialHeight": 140.0,
+        "TextblockHeight": 43.2,
+        "Background": "#FF71C6A8"
+      },
+      {
+        "Id": "e731600da0fc4b618aa535694913fb9b",
+        "Title": "SET<DESCRPTION>",
+        "Nodes": [
+          "cd258a51b6214d2eae51c59a4de24412"
+        ],
+        "Left": 1797.4261772317627,
+        "Top": 395.2698506890614,
+        "Width": 324.5266666666667,
+        "Height": 97.6,
+        "FontSize": 36.0,
+        "InitialTop": 448.46985068906139,
+        "InitialHeight": 140.0,
+        "TextblockHeight": 43.2,
+        "Background": "#FFFF7BAC"
+      },
+      {
+        "Id": "949875c95e23480584a9b476702f6500",
+        "Title": "DESIGN<DESCRPTION>",
+        "Nodes": [
+          "a29cb0a37e6147e494c9b92450282429"
+        ],
+        "Left": 932.672365168169,
+        "Top": 395.26985068906185,
+        "Width": 392.11666666666667,
+        "Height": 97.6,
+        "FontSize": 36.0,
+        "InitialTop": 448.46985068906184,
+        "InitialHeight": 140.0,
+        "TextblockHeight": 43.2,
+        "Background": "#FFA4E1FF"
+      },
+      {
+        "Id": "1dac58f5b1744c8dac8fac5bc34aa80c",
+        "Title": "IMPORT",
+        "Nodes": [
+          "e21f51ced0d645499b6999df968a21f9"
+        ],
+        "Left": 758.134416665146,
+        "Top": 395.2698506890614,
+        "Width": 137.98666666666668,
+        "Height": 97.6,
+        "FontSize": 36.0,
+        "InitialTop": 448.46985068906139,
+        "InitialHeight": 140.0,
+        "TextblockHeight": 43.2,
+        "Background": "#FFD4B6DB"
+      },
+      {
+        "Id": "cbfdc9d6df894a8e9f191df9e5dd20cc",
+        "Title": "INPUTS",
+        "Nodes": [
+          "92aa53ea490b4edba645a0a8340cb874"
+        ],
+        "Left": 596.36299575826581,
+        "Top": 395.2698506890614,
+        "Width": 128.69,
+        "Height": 97.6,
+        "FontSize": 36.0,
+        "InitialTop": 448.46985068906139,
+        "InitialHeight": 140.0,
+        "TextblockHeight": 43.2,
+        "Background": "#FFBB87C6"
+      },
+      {
+        "Id": "f47d2c5ca1cb4d4e91a2b4445430380e",
+        "Title": "<AUTHOR>",
+        "Nodes": [
+          "9e349100b1b243a4b99d40971e8a51af"
+        ],
+        "Left": 365.7623438009349,
+        "Top": 395.2698506890614,
+        "Width": 199.59666666666669,
+        "Height": 111.99999999999999,
+        "FontSize": 36.0,
+        "InitialTop": 448.46985068906139,
+        "InitialHeight": 140.0,
+        "TextblockHeight": 43.2,
+        "Background": "#FFFFC999"
+      },
+      {
+        "Id": "c90ebc21a8654b04afde376a891e2389",
+        "Title": "PYTHON",
+        "Nodes": [
+          "f24dee7726414625a99a88a859a340b6",
+          "bbe425eedbd3411f99d9d8736a82a0f5"
+        ],
+        "Left": 1441.6143330578459,
+        "Top": 1053.7298092874914,
+        "Width": 290.70857251618679,
+        "Height": 163.20997667675095,
+        "FontSize": 36.0,
+        "InitialTop": 1106.9298092874915,
+        "InitialHeight": 152.80997667675092,
+        "TextblockHeight": 43.2,
+        "Background": "#FF71C6A8"
+      },
+      {
+        "Id": "a29cb0a37e6147e494c9b92450282429",
+        "Title": "DESIGN <DESCRIPTION>",
+        "Nodes": [],
+        "Left": 942.672365168169,
+        "Top": 448.46985068906184,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "3df54130e73a48ef865c6e7764e3dbb3",
+        "Title": "PYTHON <DESCRIPTION>",
+        "Nodes": [],
+        "Left": 1365.5388565092053,
+        "Top": 448.46985068906139,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "cd258a51b6214d2eae51c59a4de24412",
+        "Title": "SET <DESCRIPTION>",
+        "Nodes": [],
+        "Left": 1807.4261772317627,
+        "Top": 448.46985068906139,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "e21f51ced0d645499b6999df968a21f9",
+        "Title": "IMPORT FILES",
+        "Nodes": [],
+        "Left": 768.134416665146,
+        "Top": 448.46985068906139,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "92aa53ea490b4edba645a0a8340cb874",
+        "Title": "INPUTS",
+        "Nodes": [],
+        "Left": 606.36299575826581,
+        "Top": 448.46985068906139,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "9e349100b1b243a4b99d40971e8a51af",
+        "Title": "AUTHOR:\r\n©PAWEŁ DREIER",
+        "Nodes": [],
+        "Left": 375.7623438009349,
+        "Top": 448.46985068906139,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      }
+    ],
+    "X": -1112.2004612500261,
+    "Y": -1047.0885156018999,
+    "Zoom": 1.1560215560743403
+  }
+}
